@@ -23,20 +23,18 @@ Git, JetBrains Rider, Visual Studio와 같은 툴을 다룰 수 있습니다.
 ### 🔫 [TriForge – 1v1 FPS Project (UE5)](https://github.com/pju0205/TriForge)
 > Unreal Engine 5 기반의 1:1 멀티플레이 FPS 게임  
 > 모션 매칭, 벽타기, 슬라이딩, 무기 시스템, 서버-클라이언트 구조 등 구현  
-> 팀 기반 PBL 수업 프로젝트
+> 담당 파트 : 컨트롤
 
 - Motion Matching(PoseSearch) 기반 애니메이션 시스템
-- Dedicated Server 환경에서 동작하도록 최적화
-- C++ 기반 캐릭터 입력 처리 및 상태 동기화 구조 구현
-- GitHub Actions 기반 CI 연동
+- Dedicated Server 환경에서 동작하도록 구현
 
-### 🐉 [IdleRPG – Android 방치형 RPG 게임 (Kotlin + Jetpack)](https://github.com/minsupanda/IdleRPG)
-> Android Studio에서 Kotlin으로 제작한 모바일 RPG  
-> 골드 자동 증가 시스템, 보스 전투, 캐릭터 스프라이트 애니메이션 구현
 
-- 맞춤형 `View` 클래스 기반 스프라이트 애니메이션
-- 상태 관리 시스템 및 업그레이드 UI 로직 구현
-- Git 및 로컬 저장소 활용 개발
+### 🐉 [Project_PBL – PVE TPS Project](https://github.com/choiguri/GNU_PBL)
+> Unreal Engine 5 기반의 PVE 멀티플레이 TPS 게임
+> 대쉬, 무기 시스템, 서버- 클라이언트 구조 등 구현   
+> 담당 파트 : 컨트롤
+
+- Listen Server 환경에서 동작하도록 구현
 
 ---
 
