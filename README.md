@@ -20,7 +20,7 @@ Git, JetBrains Rider, Visual Studio와 같은 툴을 다룰 수 있습니다.
 
 ## 🧩 Projects
 
-### 🔫 [TriForge – 1v1 FPS Project (UE5)](https://github.com/minsupanda/TriForge)
+### 🔫 [TriForge – 1v1 FPS Project (UE5)](https://github.com/pju0205/TriForge)
 > Unreal Engine 5 기반의 1:1 멀티플레이 FPS 게임  
 > 모션 매칭, 벽타기, 슬라이딩, 무기 시스템, 서버-클라이언트 구조 등 구현  
 > 팀 기반 PBL 수업 프로젝트
