@@ -20,7 +20,8 @@ FPS, TPS, PVE 등 멀티플레이 환경에서의 캐릭터 제어(Control) 시�
 ## 🧩 Projects
 
 ### 🔫 [TriForge – 1v1 FPS (UE5)](https://github.com/pju0205/TriForge)  
-> **1:1 멀티플레이 FPS 게임** | UE5 / C++ / Motion Matching / Dedicated Server  
+> **1:1 멀티플레이 FPS 게임**
+> UE5 / C++ / Motion Matching / Dedicated Server  
 > 📌 **Control 시스템 개발 담당**
 
 - Motion Matching(PoseSearch) 기반 캐릭터 애니메이션 시스템 구성  
@@ -30,7 +31,8 @@ FPS, TPS, PVE 등 멀티플레이 환경에서의 캐릭터 제어(Control) 시�
 ---
 
 ### 🐉 [Project_PBL – Co-op PVE TPS (UE5)](https://github.com/choiguri/GNU_PBL)  
-> **PVE 협동 TPS 게임** | UE5 / C++ / Listen Server 기반  
+> **PVE 협동 TPS 게임**
+> UE5 / C++ / Listen Server 기반  
 > 📌 **Control 시스템 개발 담당**
 
 - 대시, 스킬 등 캐릭터 컨트롤 전반 개발  
