@@ -33,7 +33,7 @@ FPS, TPS, PVE 등 멀티플레이 환경에서의 캐릭터 제어(Control) 시�
 > **PVE 협동 TPS 게임** | UE5 / C++ / Listen Server 기반  
 > 📌 **Control 시스템 개발 담당**
 
-- 대시, 무기 교체, 공격 입력 등 캐릭터 컨트롤 전반 개발  
+- 대시, 스킬 등 캐릭터 컨트롤 전반 개발  
 - Listen Server 기반 멀티플레이 연동  
 - Input → State → Animation 흐름 구조화
 
@@ -54,5 +54,3 @@ FPS, TPS, PVE 등 멀티플레이 환경에서의 캐릭터 제어(Control) 시�
 
 ---
 
-> 협업 중심의 기술 기반 게임 개발자,  
-> 실전 프로젝트를 통해 현실적인 문제 해결을 즐깁니다.
