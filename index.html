@@ -439,7 +439,6 @@ window.PORTFOLIO_DATA = {
     $('#heroIntro').textContent=p.intro;
     $('#heroGithub').href=safeUrl(p.github);
     $('#contactGithub').href=safeUrl(p.github);
-    $('#contactNotion').href=safeUrl(p.notion);
     const mail=$('#contactEmail'); if(p.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email)){mail.href='mailto:'+p.email;mail.classList.remove('hidden');}else mail.classList.add('hidden');
   }
   const wire = `<svg viewBox="0 0 440 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="220" cy="120" r="90" stroke="#a0e2ce"/><circle cx="220" cy="120" r="54" stroke="#a0e2ce"/><path d="M30 120H410M220 12V228M66 30L372 210M373 28L62 207" stroke="#a0e2ce" stroke-width="1"/><path d="M180 100L220 75L260 100L260 148L220 171L180 148Z" stroke="#a0e2ce" stroke-width="1.5"/><circle cx="220" cy="120" r="9" fill="#a0e2ce"/></svg>`;
