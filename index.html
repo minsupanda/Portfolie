@@ -72,6 +72,45 @@ html[data-theme="light"]{color-scheme:light;--bg:#f7f9f9;--bg2:#f0f4f4;--panel:#
 @media(max-width:1080px){.feature-layout{grid-template-columns:1fr}.feature-main{border-right:0;border-bottom:1px solid var(--line)}.feature-aside{display:block}.issue-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:750px){html{scroll-padding-top:118px}.header-inner{height:60px}.mobile-quick-nav{display:flex;justify-content:space-evenly;align-items:center;gap:0;height:42px;border-top:1px solid var(--line);background:var(--bg);font-size:12px;font-weight:600}.mobile-quick-nav a{flex:1;text-align:center;padding:7px 0;color:var(--muted)}.mobile-quick-nav a+a{border-left:1px solid var(--line)}.mobile-quick-nav a:hover{color:var(--accent)}.hero{padding-block:46px 49px}.hero h1{font-size:clamp(34px,8.1vw,48px);line-height:1.43;margin:18px 0}.hero-desc{font-size:13px;line-height:1.9}.hero-actions{gap:9px;margin-top:23px}.hero-actions .btn{font-size:11px;padding:12px 14px;gap:10px}.section{padding-block:65px}.section-work{padding-top:26px}.section-heading{margin-bottom:25px}.section-heading h2{font-size:30px}.projects-grid,.cases-grid{grid-template-columns:1fr}.project-image{height:220px}.project-body{padding:21px}.my-role{grid-template-columns:70px 1fr;gap:8px}.case-card{padding:20px}.case-card h3{font-size:20px;word-break:keep-all}.feature-main,.feature-aside{padding:22px 18px}.feature-main h3{font-size:23px;word-break:keep-all}.feature-detail{font-size:12px}.issue-block{padding:15px;margin:20px 0 26px}.issue-grid{grid-template-columns:1fr;gap:11px}.issue-step:last-child{grid-column:1}.flow-panel{padding:12px}.flow-track{display:grid;grid-template-columns:1fr;gap:6px}.flow-node{min-height:0;padding:10px 13px;display:grid;grid-template-columns:30px 1fr;gap:11px;align-items:center;border-radius:7px}.flow-node strong{font-size:12px}.flow-node .node-number{font-size:10px}.flow-inspector{padding:11px 0 0;margin-top:12px}.deep-project-summary{padding:23px 18px 5px}.deep-nav{padding:15px 18px}.category-tabs{padding:13px 17px 17px}.feature-toolbar{padding:10px 18px}.deep-bottom{padding:14px 18px}.contact-section{padding-block:69px}.contact-inner h2{font-size:32px}}
 
+
+/* v3: single source of truth for implementation and problem-solving records */
+.sr-only{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.project-card-links{justify-content:flex-start;gap:10px;flex-wrap:wrap}
+.project-card-links button{padding:11px 14px;font-size:11px}
+.project-card-links .project-issue-btn{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.project-card-links .project-issue-btn:hover{background:var(--accent-bg);color:var(--accent)}
+.project-card-links>a{margin-left:auto;white-space:nowrap}
+.deep-project-summary{padding-bottom:12px}
+.deep-project-summary h3{margin:2px 0 4px}
+.feature-toolbar{gap:15px}
+.feature-index{display:flex;align-items:center;gap:18px;min-width:0;flex:1}
+.feature-pager{white-space:nowrap;flex:none}
+.feature-jump-label{display:block;min-width:0;max-width:470px;flex:1}
+.feature-jump-label select{display:block;width:100%;height:42px;padding:0 36px 0 13px;background:var(--bg2);color:var(--text);border:1px solid var(--line);border-radius:8px;font-family:Manrope,'Noto Sans KR',sans-serif;font-size:12px;text-overflow:ellipsis;cursor:pointer}
+.feature-jump-label select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.category-tabs button[aria-selected="true"]{font-weight:800}
+.source-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:4px 0 13px}
+.source-heading .meta-heading{margin:0}
+.copy-feature-link{border:1px solid var(--line);color:var(--accent);background:transparent;border-radius:7px;padding:8px 11px;cursor:pointer;font-size:11px;white-space:nowrap}
+.copy-feature-link:hover{background:var(--accent-bg)}
+.issue-block{margin:13px 0 27px}
+.issue-block>.meta-heading{margin-bottom:16px}
+.issue-step:last-child{margin-top:1px}
+.deep-bottom{justify-content:space-between}
+@media(max-width:750px){
+ .feature-toolbar{padding:11px 16px;gap:10px}
+ .feature-index{gap:10px}
+ .feature-jump-label{max-width:none}
+ .feature-jump-label select{font-size:12px;padding:0 24px 0 9px;height:40px}
+ .feature-arrows{gap:6px}
+ .feature-arrows button{width:35px;height:40px}
+ .feature-main h3{margin-top:9px}
+ .issue-block{margin-top:6px}
+ .project-card-links{gap:9px}
+ .project-card-links button{padding:10px 12px}
+ .project-card-links>a{margin-left:0}
+}
+
 </style>
   
   
@@ -83,10 +122,10 @@ html[data-theme="light"]{color-scheme:light;--bg:#f7f9f9;--bg2:#f0f4f4;--panel:#
 <header class="site-header">
   <div class="wrap header-inner">
     <a class="brand" href="#top" aria-label="포트폴리오 홈"><span class="brand-icon">m<span>.</span></span><span class="brand-word">MINSU <span class="muted">/ DEV</span></span></a>
-    <nav class="nav-links" aria-label="메인 메뉴"><a href="#work">PROJECTS</a><a href="#cases">PROBLEM SOLVING</a><a href="#deep-dive">IMPLEMENTATION</a></nav>
+    <nav class="nav-links" aria-label="메인 메뉴"><a href="#work">PROJECTS</a><a href="#deep-dive" data-open-issues>PROBLEM SOLVING</a><a href="#deep-dive">IMPLEMENTATION</a></nav>
     <div class="header-actions"><button type="button" class="theme-toggle" id="themeToggle" aria-label="라이트 모드로 전환" title="테마 전환"><span id="themeIcon">☀</span></button><a href="#contact" class="contact-button">CONTACT <span>↗</span></a></div>
   </div>
-  <nav class="mobile-quick-nav" aria-label="빠른 이동"><a href="#work">프로젝트</a><a href="#cases">문제 해결</a><a href="#deep-dive">구현 상세</a></nav>
+  <nav class="mobile-quick-nav" aria-label="빠른 이동"><a href="#work">프로젝트</a><a href="#deep-dive" data-open-issues>문제 해결</a><a href="#deep-dive">구현 상세</a></nav>
 </header>
 <main id="main">
   <section id="top" class="hero wrap">
@@ -94,33 +133,29 @@ html[data-theme="light"]{color-scheme:light;--bg:#f7f9f9;--bg2:#f0f4f4;--panel:#
       <div class="overline"><span class="signal-dot"></span> UNREAL ENGINE / C++ · GAME CLIENT PROGRAMMER</div>
       <h1 id="heroHeadline">캐릭터 이동과 애니메이션을<br><em>C++로 구현했습니다.</em></h1>
       <p class="hero-desc" id="heroIntro"></p>
-      <div class="hero-actions"><a class="btn btn-primary" href="#work">프로젝트 보기 <span>↘</span></a><a class="btn btn-ghost" href="#cases">문제 해결 사례 <span>↘</span></a><a class="btn btn-ghost" href="https://github.com/minsupanda" target="_blank" rel="noopener noreferrer" id="heroGithub">GITHUB <span>↗</span></a></div>
+      <div class="hero-actions"><a class="btn btn-primary" href="#work">프로젝트 보기 <span>↘</span></a><a class="btn btn-ghost" href="#deep-dive" data-open-issues>문제 해결 사례 <span>↘</span></a><a class="btn btn-ghost" href="https://github.com/minsupanda" target="_blank" rel="noopener noreferrer" id="heroGithub">GITHUB <span>↗</span></a></div>
     </div>
   </section>
   <section id="work" class="section wrap section-work">
     <div class="section-heading"><div><span class="kicker">01 / PROJECTS</span><h2>참여 프로젝트와 <em>담당 업무</em></h2><p>두 프로젝트에서 직접 구현한 캐릭터 시스템과 주요 작업을 먼저 확인할 수 있습니다.</p></div><span class="section-side">2024 — 2025 <span class="accent">↘</span></span></div>
     <div id="projectCards" class="projects-grid"></div>
   </section>
-  <section id="cases" class="section wrap section-cases">
-    <div class="section-heading"><div><span class="kicker">02 / DEBUGGING</span><h2>문제 발생과 <em>해결 과정</em></h2><p>실제로 겪은 문제와 원인 분석, 적용한 수정, 그 결과를 정리했습니다.</p></div><span class="section-side">REAL ENGINEERING RECORDS</span></div>
-    <div id="caseCards" class="cases-grid"></div>
-  </section>
   <section id="deep-dive" class="section deep-section">
     <div class="wrap">
-      <div class="section-heading"><div><span class="kicker">03 / IMPLEMENTATION</span><h2>직접 구현한 <em>동작과 코드</em></h2><p>카테고리를 고르고 화살표로 사례를 이동하세요. 다이어그램 노드를 선택하면 동작 설명이 나타납니다.</p></div><span class="section-side">SELECT A SYSTEM <span class="accent">↘</span></span></div>
+      <div class="section-heading"><div><span class="kicker">02 / IMPLEMENTATION & DEBUGGING</span><h2>구현 기록과 <em>문제 해결</em></h2><p>프로젝트와 카테고리를 선택하면 구현 과정, C++ 코드, 문제 해결 기록을 한곳에서 확인할 수 있습니다.</p></div><span class="section-side">SELECT A SYSTEM <span class="accent">↘</span></span></div>
       <div class="deep-shell" id="deepShell">
         <div class="deep-nav"><span class="micro">PROJECT SELECT</span><div id="projectSelector" class="segmented"></div><span id="featureCount" class="micro count-label"></span></div>
         <div class="deep-project-summary" id="deepProjectSummary"></div>
         <div id="categoryTabs" class="category-tabs" role="tablist" aria-label="기술 카테고리"></div>
-        <div class="feature-toolbar"><div id="featurePager" class="feature-pager"></div><div class="feature-arrows"><button id="prevFeature" type="button" aria-label="이전 구현 사례">←</button><button id="nextFeature" type="button" aria-label="다음 구현 사례">→</button></div></div>
-        <div id="featureContent" class="feature-layout" aria-live="polite"></div>
+        <div class="feature-toolbar"><div class="feature-index"><div id="featurePager" class="feature-pager"></div><label class="feature-jump-label"><span class="sr-only">세부 기술 사례 선택</span><select id="featureJump" aria-label="세부 기술 사례 선택"></select></label></div><div class="feature-arrows"><button id="prevFeature" type="button" aria-label="이전 구현 사례">←</button><button id="nextFeature" type="button" aria-label="다음 구현 사례">→</button></div></div>
+        <div id="featureContent" class="feature-layout" role="tabpanel" tabindex="0" aria-live="polite"></div>
         <div class="deep-bottom"><span>← → 키보드로 탐색 가능</span><span>코드 / Notion 원문 링크 제공</span></div>
       </div>
     </div>
   </section>
-  <section id="contact" class="section contact-section"><div class="wrap contact-inner"><div><span class="kicker">04 / CONTACT</span><h2>코드와 작업 기록을<br><em>확인하실 수 있습니다.</em></h2><p>GitHub에 구현 소스를, Notion에 개발 과정과 실험 기록을 남겼습니다.</p></div><div class="contact-links"><a id="contactGithub" href="https://github.com/minsupanda" target="_blank" rel="noopener noreferrer">GITHUB PROFILE <span>↗</span></a><a id="contactNotion" href="https://app.notion.com/p/40f66e4e96ff8191bb54c8aee82f848e" target="_blank" rel="noopener noreferrer">DEVELOPMENT NOTES <span>↗</span></a><a id="contactEmail" class="hidden" href="#">EMAIL <span>↗</span></a></div></div></section>
+  <section id="contact" class="section contact-section"><div class="wrap contact-inner"><div><span class="kicker">03 / CONTACT</span><h2>코드와 작업 기록을<br><em>확인하실 수 있습니다.</em></h2><p>GitHub에 구현 소스를, Notion에 개발 과정과 실험 기록을 남겼습니다.</p></div><div class="contact-links"><a id="contactGithub" href="https://github.com/minsupanda" target="_blank" rel="noopener noreferrer">GITHUB PROFILE <span>↗</span></a><a id="contactNotion" href="https://app.notion.com/p/40f66e4e96ff8191bb54c8aee82f848e" target="_blank" rel="noopener noreferrer">DEVELOPMENT NOTES <span>↗</span></a><a id="contactEmail" class="hidden" href="#">EMAIL <span>↗</span></a></div></div></section>
 </main>
-<footer><div class="wrap footer-inner"><span>© 2026 MINSU LEE · UNREAL ENGINE / C++</span><div><span>UNREAL ENGINE / C++</span><a href="admin.html" title="관리자 로그인">ADMIN ↗</a><a href="#top">BACK TO TOP ↑</a></div></div></footer>
+<footer><div class="wrap footer-inner"><span>© 2026 MINSU LEE · UNREAL ENGINE / C++</span><div><span>UNREAL ENGINE / C++</span><a href="#top">BACK TO TOP ↑</a></div></div></footer>
 <dialog id="videoDialog" class="video-dialog"><button type="button" class="dialog-close" id="closeVideo" aria-label="영상 닫기">✕</button><div id="videoFrame" class="video-frame"></div><p id="videoCaption"></p></dialog>
 <script id="structuredData" type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"이민수","jobTitle":"Game Client Programmer","knowsAbout":["Unreal Engine","C++","Character Movement","Animation","Multiplayer"]}</script>
 <script>
@@ -151,7 +186,7 @@ window.PORTFOLIO_DATA = {
   projects: [
     {
       id: 'triforge', order: '01', name: 'Tri Forge', short: '1:1 멀티플레이 FPS', period: '2025.03 — 2025.06', team: '3인 팀', engine: 'Unreal Engine 5.4', network: 'Dedicated Server', genre: 'FPS / PvP',
-      summary: '1:1 대전 FPS. 캐릭터 이동·슬라이딩·벽타기와 모션 매칭의 C++ 처리 흐름을 구현하고 멀티플레이 점프·회전 문제를 추적했습니다.',
+      summary: 'Dedicated Server 기반 1:1 PvP FPS. 실시간 대전과 랜덤 무기 획득을 중심으로 진행되는 프로젝트입니다.',
       myRole: '캐릭터 이동·조작 시스템, 슬라이딩과 벽타기, 모션 매칭 처리 분석·C++ 재구성',
       video: 'lo1SQH9PyY0', repo: 'https://github.com/pju0205/TriForge', cover: 'tri',
       achievement: '졸업작품 · PBL2 A+',
@@ -315,7 +350,7 @@ window.PORTFOLIO_DATA = {
     },
     {
       id: 'battleline', order: '02', name: 'Project Battle Line', short: '4인 협동 보스 레이드 TPS', period: '2024.09 — 2024.12', team: '팀 프로젝트', engine: 'Unreal Engine 5.4', network: 'Listen Server', genre: 'TPS / PvE',
-      summary: '4인 협동 레이드 TPS. 카메라 기준 이동, 점프·방향별 구르기, 달리기 상태 변경과 애니메이션·서버 반영을 구현했습니다.',
+      summary: 'Listen Server 기반 4인 협동 보스 레이드 TPS. 여러 플레이어가 함께 전투를 진행하는 프로젝트입니다.',
       myRole: '카메라 기준 캐릭터 이동, 점프·구르기·대시, 달리기 상태 및 애니메이션 연계',
       video: '-3ciZHhTgDc', repo: 'https://github.com/choiguri/GNU_PBL', cover: 'battle',
       achievement: '2024 경상국립대학교 캡스톤디자인 경진대회 최우수상',
@@ -409,21 +444,25 @@ window.PORTFOLIO_DATA = {
   }
   const wire = `<svg viewBox="0 0 440 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="220" cy="120" r="90" stroke="#a0e2ce"/><circle cx="220" cy="120" r="54" stroke="#a0e2ce"/><path d="M30 120H410M220 12V228M66 30L372 210M373 28L62 207" stroke="#a0e2ce" stroke-width="1"/><path d="M180 100L220 75L260 100L260 148L220 171L180 148Z" stroke="#a0e2ce" stroke-width="1.5"/><circle cx="220" cy="120" r="9" fill="#a0e2ce"/></svg>`;
   function renderCards() {
-    $('#projectCards').innerHTML = state.data.projects.map((p,i)=>`<article class="project-card"><div class="project-image ${esc(p.cover||'')}"><img src="https://img.youtube.com/vi/${esc(videoId(p.video))}/hqdefault.jpg" alt="${esc(p.name)} 시연 영상 썸네일" loading="lazy" onerror="this.style.display='none'"><div class="image-wire">${wire}</div><button class="play-video" data-video="${i}" aria-label="${esc(p.name)} 시연 영상 재생">▶</button><div class="project-overlay"><div><span>${esc(p.short)}</span><strong>${esc(p.name)}</strong></div><span>${esc(p.order)} / 02</span></div></div><div class="project-body"><span class="card-index">${esc(p.period)} · ${esc(p.team)} · ${esc(p.network)}</span><p>${esc(p.summary)}</p><div class="my-role"><span>담당 업무</span><strong>${esc(p.myRole)}</strong></div><div class="project-tag-row">${(p.tags||[]).slice(0,5).map(t=>`<span>${esc(t)}</span>`).join('')}</div><div class="project-card-links"><button type="button" data-project="${i}">구현 상세 보기 ↗</button><a href="${esc(safeUrl(p.repo))}" target="_blank" rel="noopener noreferrer">SOURCE CODE ↗</a></div></div></article>`).join('');
+    $('#projectCards').innerHTML = state.data.projects.map((p,i)=>`<article class="project-card"><div class="project-image ${esc(p.cover||'')}"><img src="https://img.youtube.com/vi/${esc(videoId(p.video))}/hqdefault.jpg" alt="${esc(p.name)} 시연 영상 썸네일" loading="lazy" onerror="this.style.display='none'"><div class="image-wire">${wire}</div><button class="play-video" data-video="${i}" aria-label="${esc(p.name)} 시연 영상 재생">▶</button><div class="project-overlay"><div><span>${esc(p.short)}</span><strong>${esc(p.name)}</strong></div><span>${esc(p.order)} / 02</span></div></div><div class="project-body"><span class="card-index">${esc(p.period)} · ${esc(p.team)} · ${esc(p.network)}</span><p>${esc(p.summary)}</p><div class="my-role"><span>담당 업무</span><strong>${esc(p.myRole)}</strong></div><div class="project-tag-row">${(p.tags||[]).slice(0,5).map(t=>`<span>${esc(t)}</span>`).join('')}</div><div class="project-card-links"><button type="button" data-project="${i}">구현 상세 보기 ↗</button><button type="button" class="project-issue-btn" data-project-issues="${i}">문제 해결 ${p.features.filter(f=>f.category==='문제 해결').length}건 ↗</button><a href="${esc(safeUrl(p.repo))}" target="_blank" rel="noopener noreferrer">GitHub ↗</a></div></div></article>`).join('');
     document.querySelectorAll('[data-project]').forEach(b=>b.addEventListener('click',()=>navigateProject(+b.dataset.project)));
+    document.querySelectorAll('[data-project-issues]').forEach(b=>b.addEventListener('click',()=>navigateIssues(+b.dataset.projectIssues)));
     document.querySelectorAll('[data-video]').forEach(b=>b.addEventListener('click',()=>openVideo(+b.dataset.video)));
   }
   function renderSelectors() {
     $('#projectSelector').innerHTML=state.data.projects.map((p,i)=>`<button type="button" class="${state.project===i?'active':''}" aria-pressed="${state.project===i}" data-switchproject="${i}">${esc(p.name)}</button>`).join('');
     document.querySelectorAll('[data-switchproject]').forEach(b=>b.addEventListener('click',()=>setProject(+b.dataset.switchproject)));
     const p=getProject();
-    $('#deepProjectSummary').innerHTML=`<div><span class="feature-eyebrow">${esc(p.genre)} / ${esc(p.engine)}</span><h3>${esc(p.name)} <span class="muted">— ${esc(p.short)}</span></h3><p><strong>개인 담당:</strong> ${esc(p.myRole)}</p></div><aside>${esc(p.team)} / ${esc(p.network)}<strong>${esc(p.period)}</strong><a href="${esc(safeUrl(p.repo))}" target="_blank" rel="noopener noreferrer" style="color:var(--accent);display:inline-block;margin-top:9px">GITHUB ↗</a></aside>`;
-    $('#categoryTabs').innerHTML=p.categories.map(cat=>`<button role="tab" aria-selected="${cat===state.category}" type="button" class="${cat===state.category?'active':''}" data-cat="${esc(cat)}">${esc(cat)} <span style="opacity:.55">${p.features.filter(f=>f.category===cat).length}</span></button>`).join('');
-    document.querySelectorAll('[data-cat]').forEach(b=>b.addEventListener('click',()=>{state.category=b.dataset.cat;state.feature=0;state.selectedNode=0;renderSelectors();renderFeature();}));
+    $('#deepProjectSummary').innerHTML=`<div><span class="feature-eyebrow">${esc(p.genre)} / ${esc(p.engine)}</span><h3>${esc(p.name)} <span class="muted">— ${esc(p.short)}</span></h3></div><aside>${esc(p.team)} / ${esc(p.network)}<strong>${esc(p.period)}</strong><a href="${esc(safeUrl(p.repo))}" target="_blank" rel="noopener noreferrer" style="color:var(--accent);display:inline-block;margin-top:9px">GITHUB ↗</a></aside>`;
+    $('#categoryTabs').innerHTML=p.categories.map(cat=>`<button role="tab" aria-selected="${cat===state.category}" aria-controls="featureContent" type="button" class="${cat===state.category?'active':''}" data-cat="${esc(cat)}">${esc(cat)} <span style="opacity:.55">${p.features.filter(f=>f.category===cat).length}</span></button>`).join('');
+    document.querySelectorAll('[data-cat]').forEach(b=>b.addEventListener('click',()=>setCategory(b.dataset.cat)));
     $('#featureCount').textContent=`${String(p.features.length).padStart(2,'0')} TECHNICAL NOTES`;
   }
   function setProject(index){ if(index<0||index>=state.data.projects.length)return;state.project=index;state.category=getProject().categories[0];state.feature=0;state.selectedNode=0;renderSelectors();renderFeature(); }
-  function navigateProject(index){setProject(index);$('#deep-dive').scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'','#deep-dive')}
+  function navigateProject(index){setProject(index);scrollToDetails()}
+  function navigateIssues(index){setProject(index);setCategory('문제 해결');scrollToDetails()}
+  function scrollToDetails(){ $('#deep-dive').scrollIntoView({behavior:'smooth',block:'start'}); history.replaceState(null,'','#deep-dive'); }
+  function setCategory(category){if(!getProject().categories.includes(category))return;state.category=category;state.feature=0;state.selectedNode=0;renderSelectors();renderFeature();}
   function renderFlow(nodes,active=0) {
     if(!nodes || !nodes.length) return '';
     return `<div class="flow-panel"><div class="flow-track" role="group" aria-label="구현 순서">${nodes.map((node,i)=>`<button type="button" class="flow-node ${i===active?'active':''}" data-node="${i}" aria-pressed="${i===active}" title="${esc(node[1])}"><span class="node-number">${String(i+1).padStart(2,'0')}</span><strong>${esc(node[0])}</strong></button>`).join('')}</div><div class="flow-inspector"><span class="flow-label">STEP ${String(active+1).padStart(2,'0')}</span><p>${esc(nodes[active]?.[1]||'')}</p></div></div>`;
@@ -431,20 +470,23 @@ window.PORTFOLIO_DATA = {
   function renderFeature() {
     const item=getFeature(); if(!item)return;
     const items=getItems();
-    $('#featurePager').innerHTML=`<b>${String(state.feature+1).padStart(2,'0')}</b> / ${String(items.length).padStart(2,'0')} &nbsp; ${items.map((x,i)=>`<button type="button" aria-label="${esc(x.title)}" title="${esc(x.title)}" class="feature-dot" data-featureindex="${i}" style="display:inline-block;width:6px;height:6px;padding:0;margin:0 4px;background:${i===state.feature?'var(--accent)':'var(--subtle)'};border:0;border-radius:50%;cursor:pointer"></button>`).join('')}`;
-    document.querySelectorAll('[data-featureindex]').forEach(b=>b.addEventListener('click',()=>{state.feature=+b.dataset.featureindex;state.selectedNode=0;renderFeature()}));
+    $('#featurePager').innerHTML=`<b>${String(state.feature+1).padStart(2,'0')}</b> / ${String(items.length).padStart(2,'0')}`;
+    $('#featureJump').innerHTML=items.map((x,i)=>`<option value="${i}" ${i===state.feature?'selected':''}>${esc(x.title)}</option>`).join('');
     let issue='';
     if(item.issue){
-      const fields=[['현상',item.issue.problem],['원인 분석',item.issue.analysis],['수정·조치',item.issue.action],['결과',item.issue.result],['배운 점',item.issue.lesson]];
-      issue=`<div class="issue-block"><div class="meta-heading">PROBLEM / SOLUTION</div><div class="issue-grid">${fields.map(([k,v])=>`<div class="issue-step"><b>${esc(k)}</b><p>${esc(v)}</p></div>`).join('')}</div></div>`;
+      const fields=[['발생한 현상',item.issue.problem],['원인 분석',item.issue.analysis],['적용한 조치',item.issue.action],['확인된 결과',item.issue.result],['배운 점',item.issue.lesson]];
+      issue=`<div class="issue-block"><div class="meta-heading">문제 발생부터 수정까지</div><div class="issue-grid">${fields.map(([k,v])=>`<div class="issue-step"><b>${esc(k)}</b><p>${esc(v)}</p></div>`).join('')}</div></div>`;
     }
-    $('#featureContent').innerHTML=`<div class="feature-main"><span class="feature-eyebrow">${esc(item.eyebrow)}</span><h3>${esc(item.title)}</h3><p class="feature-lead">${esc(item.lead)}</p><p class="feature-detail">${esc(item.detail)}</p>${issue}<div class="meta-heading flow-section-heading">구현 흐름 · 단계를 선택하세요</div>${renderFlow(item.flow,state.selectedNode)}</div><aside class="feature-aside"><div class="meta-heading">C++ IMPLEMENTATION</div><div class="code-snippet"><div class="snippet-top"><span>CODE EXCERPT</span><button type="button" id="copyCode">복사</button></div><pre><code>${esc(item.snippet||'')}</code></pre></div><div class="meta-heading">코드 및 작업 기록</div><div class="evidence">${(item.evidence||[]).map(link).join('')}</div></aside>`;
+    $('#featureContent').innerHTML=`<div class="feature-main"><span class="feature-eyebrow">${esc(item.eyebrow)}</span><h3>${esc(item.title)}</h3>${item.issue?'':`<p class="feature-lead">${esc(item.lead)}</p><p class="feature-detail">${esc(item.detail)}</p>`}${issue}<div class="meta-heading flow-section-heading">구현 흐름 · 단계를 선택하세요</div>${renderFlow(item.flow,state.selectedNode)}</div><aside class="feature-aside"><div class="meta-heading">C++ IMPLEMENTATION</div><div class="code-snippet"><div class="snippet-top"><span>CODE EXCERPT</span><button type="button" id="copyCode">복사</button></div><pre><code>${esc(item.snippet||'')}</code></pre></div><div class="source-heading"><div class="meta-heading">코드 및 작업 기록</div><button type="button" class="copy-feature-link" id="copyFeatureLink">링크 복사 ↗</button></div><div class="evidence">${(item.evidence||[]).map(link).join('')}</div></aside>`;
     function bindNodes(){ document.querySelectorAll('.flow-node').forEach(g=>{const run=()=>{state.selectedNode=+g.dataset.node;$('#featureContent .flow-panel').outerHTML=renderFlow(item.flow,state.selectedNode);bindNodes()};g.addEventListener('click',run);}); }
     bindNodes();
     $('#copyCode').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(item.snippet||'');$('#copyCode').textContent='복사 완료';setTimeout(()=>{if($('#copyCode'))$('#copyCode').textContent='복사'},1500)}catch(e){$('#copyCode').textContent='선택 후 복사'}});
+    $('#copyFeatureLink').addEventListener('click',async()=>{const u=new URL(location.href);u.searchParams.set('project',getProject().id);u.searchParams.set('feature',item.id);u.hash='deep-dive';try{await navigator.clipboard.writeText(u.toString());$('#copyFeatureLink').textContent='복사 완료';}catch(e){$('#copyFeatureLink').textContent='주소창에서 복사';}});
   }
   function changeFeature(delta){const n=getItems().length;if(!n)return;state.feature=(state.feature+delta+n)%n;state.selectedNode=0;renderFeature()}
   $('#prevFeature').addEventListener('click',()=>changeFeature(-1));$('#nextFeature').addEventListener('click',()=>changeFeature(1));
+  $('#featureJump').addEventListener('change',e=>{state.feature=Number(e.target.value);state.selectedNode=0;renderFeature();});
+  document.querySelectorAll('[data-open-issues]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();navigateIssues(state.project);}));
   document.addEventListener('keydown',e=>{
     if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;
     if(document.activeElement && ['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName))return;
@@ -453,16 +495,16 @@ window.PORTFOLIO_DATA = {
     e.preventDefault();changeFeature(e.key==='ArrowRight'?1:-1);
   });
   function showFeature(projectId,featureId){const ix=state.data.projects.findIndex(p=>p.id===projectId);if(ix<0)return;state.project=ix;const item=getProject().features.find(f=>f.id===featureId);if(!item)return;state.category=item.category;state.feature=getItems().findIndex(f=>f.id===featureId);state.selectedNode=0;renderSelectors();renderFeature();$('#deep-dive').scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'','#deep-dive');}
-  function renderCases(){
-    const cases=state.data.projects.flatMap(p=>(p.features||[]).filter(f=>f.issue).map(f=>({p,f})));
-    $('#caseCards').innerHTML=cases.map(({p,f},i)=>`<button type="button" class="case-card" data-case-project="${esc(p.id)}" data-case-feature="${esc(f.id)}"><span class="case-eyebrow">CASE ${String(i+1).padStart(2,'0')} / ${esc(p.name)}</span><h3>${esc(f.title)}</h3><p class="case-problem">${esc(f.issue.problem)}</p><div class="case-finding"><span>조치</span><p>${esc(f.issue.action)}</p></div><div class="case-finding"><span>결과</span><p>${esc(f.issue.result)}</p></div><span class="case-cta">문제 해결 과정과 코드 보기 ↗</span></button>`).join('');
-    document.querySelectorAll('[data-case-feature]').forEach(b=>b.addEventListener('click',()=>showFeature(b.dataset.caseProject,b.dataset.caseFeature)));
-  }
   function openVideo(ix){const p=state.data.projects[ix],id=videoId(p?.video);if(!id)return;$('#videoFrame').innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0" title="${esc(p.name)} 시연 영상" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;$('#videoCaption').textContent=`${p.name} — 프로젝트 시연 영상 (YouTube)`;$('#videoDialog').showModal()}
   function closeVideo(){$('#videoDialog').close();$('#videoFrame').innerHTML=''}
   $('#closeVideo').addEventListener('click',closeVideo);$('#videoDialog').addEventListener('click',e=>{if(e.target===$('#videoDialog'))closeVideo()});$('#videoDialog').addEventListener('close',()=>{$('#videoFrame').innerHTML=''})
-  function render(){if(!state.data?.projects?.length)return;renderTop();renderCards();setProject(Math.min(state.project,state.data.projects.length-1));renderCases();}
+  function render(){if(!state.data?.projects?.length)return;renderTop();renderCards();setProject(Math.min(state.project,state.data.projects.length-1));}
   render();
+  const deepLink=new URLSearchParams(location.search);
+  if(deepLink.has('project')&&deepLink.has('feature')){
+    const ix=state.data.projects.findIndex(p=>p.id===deepLink.get('project'));
+    if(ix>=0){const f=state.data.projects[ix].features.find(f=>f.id===deepLink.get('feature'));if(f){setProject(ix);state.category=f.category;state.feature=getItems().findIndex(x=>x.id===f.id);renderSelectors();renderFeature();if(location.hash==='#deep-dive')requestAnimationFrame(()=>$('#deep-dive').scrollIntoView());}}
+  }
   // Optional hosted content and privacy-conscious aggregate page views. Security lives in database RLS.
   const cfg=window.PORTFOLIO_CONFIG||{};
   if(cfg.supabaseUrl&&cfg.supabaseAnonKey){
