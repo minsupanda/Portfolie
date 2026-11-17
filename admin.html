@@ -43,10 +43,10 @@ window.PORTFOLIO_DATA = {
     name: '이민수',
     english: 'MINSU LEE',
     role: 'Unreal Engine / C++ Game Client Programmer',
-    headline: '플레이어의 움직임을,\n코드로 설계합니다.',
-    intro: '캐릭터 이동과 애니메이션, 멀티플레이 동기화를 구현하며 동작의 원리를 이해하려 노력해 왔습니다. 기능이 왜 그렇게 동작하는지 확인하고, 문제를 재현하며 개선하는 개발자입니다.',
-    about: '경상국립대학교 컴퓨터공학 전공. 4인 협동 레이드와 1:1 FPS 프로젝트에서 캐릭터 조작·이동 상태·애니메이션을 담당했습니다. 게임의 재미는 조작에 대한 즉각적이고 예측 가능한 반응에서 시작한다고 생각합니다.',
-    principle: '코드를 동작시키는 것에서 멈추지 않고, 왜 그렇게 동작하는지 설명할 수 있도록 공부합니다.',
+    headline: '캐릭터 이동과 애니메이션을\nC++로 구현했습니다.',
+    intro: 'Unreal Engine 5 · C++ 기반 멀티플레이 게임 2개에서 캐릭터 조작·이동 상태·애니메이션을 담당했습니다. 입력 처리부터 서버·클라이언트 상태 반영까지 직접 구현한 작업과 디버깅 과정을 정리했습니다.',
+    about: '경상국립대학교 컴퓨터공학 전공. Project Battle Line에서는 카메라 기반 이동·구르기·달리기 동기화를, Tri Forge에서는 슬라이딩·벽타기·모션 매칭 처리와 멀티플레이 이동 문제를 다뤘습니다.',
+    principle: '이동과 애니메이션이 기대한 대로 동작하지 않을 때, 입력·상태·속도·네트워크 갱신 경로를 나누어 확인했습니다.',
     school: '경상국립대학교 · 컴퓨터공학',
     focus: ['C++', 'Unreal Engine 5', 'Character Movement', 'Animation', 'Multiplayer RPC', 'Blueprint', 'Git'],
     github: 'https://github.com/minsupanda',
@@ -56,17 +56,17 @@ window.PORTFOLIO_DATA = {
   projects: [
     {
       id: 'triforge', order: '01', name: 'Tri Forge', short: '1:1 멀티플레이 FPS', period: '2025.03 — 2025.06', team: '3인 팀', engine: 'Unreal Engine 5.4', network: 'Dedicated Server', genre: 'FPS / PvP',
-      summary: '빠른 이동과 정확한 조작이 중요한 1:1 대전 FPS. 이동·슬라이딩·벽타기, 상태 기반 애니메이션과 네트워크 상의 캐릭터 동작을 구현했습니다.',
+      summary: '1:1 대전 FPS. 캐릭터 이동·슬라이딩·벽타기와 모션 매칭의 C++ 처리 흐름을 구현하고 멀티플레이 점프·회전 문제를 추적했습니다.',
       myRole: '캐릭터 이동·조작 시스템, 슬라이딩과 벽타기, 모션 매칭 처리 분석·C++ 재구성',
       video: 'lo1SQH9PyY0', repo: 'https://github.com/pju0205/TriForge', cover: 'tri',
-      achievement: '졸업작품 · PBL2 A+ (Notion 기록)',
+      achievement: '졸업작품 · PBL2 A+',
       tags: ['C++', 'Animation', 'Pose Search', 'RPC', 'Wall Run'],
       categories: ['모션 매칭', '이동 시스템', '멀티플레이', '문제 해결'],
       features: [
         {
           id: 'motion-pipeline', category: '모션 매칭', eyebrow: 'ANIMATION PIPELINE', title: '모션 매칭의 핵심 흐름을 C++로 재구성',
           lead: 'Game Animation Sample의 블루프린트 로직을 분석하고, 애니메이션 인스턴스의 업데이트 흐름을 C++로 연결했습니다.',
-          detail: 'NativeUpdateAnimation()에서 UpdateEssentialValues() → GenerateTrajectory() → UpdateStates() 순서로 갱신합니다. 엔진의 Pose Search 기능을 직접 재구현한 것은 아니며, 입력 데이터와 상태 갱신부를 C++로 구성한 작업입니다.',
+          detail: 'NativeUpdateAnimation()에서 UpdateEssentialValues() → GenerateTrajectory() → UpdateStates() 순서로 갱신합니다. Pose Search 자체는 엔진 기능을 사용하고, 애니메이션에 전달할 값과 상태 갱신 로직을 C++로 구성했습니다.',
           flow: [
             ['NativeUpdateAnimation', '매 프레임 애니메이션 갱신의 시작점'],
             ['UpdateEssentialValues', 'Transform·Acceleration·Velocity·Database 태그 갱신'],
@@ -74,7 +74,6 @@ window.PORTFOLIO_DATA = {
             ['UpdateStates', 'MovementMode·MovementState·Gait·RotationMode 갱신'],
             ['Pose Search', '갱신 데이터를 엔진의 포즈 선택 흐름에 제공']
           ],
-          note: 'Blueprint의 실행 순서를 함수 단위로 나눈 후, 상태 업데이트와 애니메이션 선택의 책임을 구분했습니다.',
           snippet: 'UpdateEssentialValues();\nGenerateTrajectory(DeltaTime);\nUpdateStates();',
           evidence: [
             ['C++ 처리 순서', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Private/Character/TFAnimInstance.cpp#L58-L92'],
@@ -93,7 +92,6 @@ window.PORTFOLIO_DATA = {
             ['FutureVelocity', '0.4초와 0.5초 위치 변화량으로 추정'],
             ['상태 판정', '현재·미래 속도와 방향을 조건에 활용']
           ],
-          note: '과거 샘플 30개·미래 15개는 코드의 설정값이며 성능 향상 수치가 아닙니다.',
           snippet: 'UPoseSearchTrajectoryLibrary::PoseSearchGenerateTrajectory(\n    AnimInst, InTrajectoryData, DeltaTime, Trajectory,\n    PreviousDesiredControllerYaw, Trajectory, -1.0f, 30, 0.1f, 15);',
           evidence: [
             ['궤적 계산 코드', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Private/Character/TFAnimInstance.cpp#L218-L284'],
@@ -112,7 +110,6 @@ window.PORTFOLIO_DATA = {
             ['DB 태그', '현재 선택된 포즈 데이터 확인'],
             ['전환 조건', 'AnimGraph에서 사용할 상태 플래그 산출']
           ],
-          note: '전환 조건의 존재는 코드로 확인되지만 모든 네트워크 상황에서 정상 동작한다는 검증은 별개입니다.',
           snippet: 'UKismetMathLibrary::NotEqual_VectorVector(Velocity, FVector(0.0f, 0.0f, 0.0f), 0.1f) &&\nUKismetMathLibrary::NotEqual_VectorVector(FutureVelocity, FVector(0.0f, 0.0f, 0.0f), 0.1f)',
           evidence: [['전환 조건 원본 코드', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Private/Character/TFAnimInstance.cpp#L383-L489'], ['상태 분석 문서', 'https://app.notion.com/p/1c566e4e96ff80c18cf0ee4ed6349381']],
           status: '코드 확인'
@@ -128,7 +125,6 @@ window.PORTFOLIO_DATA = {
             ['속도 산출', '전진·횡·후진 방향별 속도 계산'],
             ['이동 적용', 'MaxWalkSpeed 갱신']
           ],
-          note: '애니메이션 상태와 실제 이동 속도가 서로 영향을 주는 구조를 이해하게 된 구현 경험입니다.',
           snippet: 'GetDesiredGait();\nCurrentSpeed = CalculateMaxSpeed(StrafeSpeedMap);\nMovementComponent->MaxWalkSpeed = CurrentSpeed;',
           evidence: [['이동 상태 코드', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Private/Character/TFPlayerCharacter.cpp#L146-L193'], ['입력 처리', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Private/Character/TFPlayerController.cpp#L107-L121']],
           status: '코드 확인'
@@ -144,7 +140,6 @@ window.PORTFOLIO_DATA = {
             ['Multicast', '몽타주·사운드 실행'],
             ['종료 처리', '타이머/몽타주 종료·효과 정리']
           ],
-          note: '연출 시작뿐 아니라 중복 실행 방지와 종료 과정까지 함께 설계했습니다.',
           snippet: 'if (Dot >= 0.8f)\n{\n    TFCharacter->PlaySlidMontage();\n}',
           evidence: [['입력 조건', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Private/Character/TFPlayerController.cpp#L179-L201'], ['서버·멀티캐스트', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Private/Character/TFPlayerCharacter.cpp#L403-L505']],
           status: '코드 확인'
@@ -160,7 +155,6 @@ window.PORTFOLIO_DATA = {
             ['벽타기 이동', 'Velocity 설정·중력 조정'],
             ['종료/점프', '0.5초 후 복원 또는 벽 점프']
           ],
-          note: '표면 법선과 벡터 외적을 캐릭터의 실제 이동 방향에 연결한 구현입니다.',
           snippet: 'WallForward = FVector::CrossProduct(WallNormal, FVector::UpVector);\nWallForward.Normalize();\nGetCharacterMovement()->Velocity = WallForward * 600.f;',
           evidence: [['벽타기 코드', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Private/Character/TFPlayerCharacter.cpp#L199-L297'], ['벽 점프 코드', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Private/Character/TFPlayerCharacter.cpp#L299-L342']],
           status: '코드 확인'
@@ -168,16 +162,15 @@ window.PORTFOLIO_DATA = {
         {
           id: 'jump-stutter', category: '문제 해결', eyebrow: 'DEBUGGING / COMMIT VERIFIED', title: '멀티플레이에서 점프가 끊기던 현상',
           lead: '단독 실행에서는 정상적이지만 서버·클라이언트 환경에서 클라이언트의 점프 궤적이 끊기는 문제를 추적했습니다.',
-          detail: 'CustomJump()의 로컬 실행·서버 요청 경로와 이동 보정 코드를 함께 확인했습니다. 2025년 6월의 수정 커밋에서 공중 상태의 수평 속도를 매 Tick 0에 가깝게 보간하던 VInterpTo 처리를 제거한 변경을 확인할 수 있습니다.',
+          detail: 'CustomJump()의 로컬 실행·서버 요청 경로와 이동 보정 코드를 함께 확인했습니다. 공중에서 이동 입력이 없을 때 수평 속도를 매 Tick 0으로 보간하던 VInterpTo 구문을 제거했습니다. 수정 커밋에 해당 변경이 남아 있습니다.',
           flow: [
             ['재현', '단독 정상 / 멀티 클라이언트에서 점프 끊김'],
             ['경로 점검', '로컬 Jump와 ServerCustomJump 흐름 비교'],
             ['원인 후보', '공중 중 수평 속도 직접 변경 검토'],
             ['코드 수정', 'Tick 내 VInterpTo 보간 처리 제거'],
-            ['변경 기록', '점프 끊김 수정 커밋 존재']
+            ['변경 기록', '공중 속도 보간 제거 커밋']
           ],
-          issue: {problem:'서버/클라이언트 실행 시 클라이언트의 점프 궤적이 끊기고 움직임이 걸리는 현상이 나타났습니다.',analysis:'입력·서버 처리뿐 아니라 매 Tick 캐릭터 수평 속도를 직접 변경하는 부분을 검토했습니다.',action:'공중에서 입력이 없을 때 수평 Velocity를 0으로 보간하는 코드를 제거했습니다.',result:'점프 끊김 수정 명시 커밋을 확인했습니다. 배포 환경 전체에 대한 독립 실행 검증은 이 조사에서 수행하지 않았습니다.',lesson:'네트워크 문제가 나타나더라도 원인을 RPC 한 곳으로 단정하지 않고, MovementComponent의 속도 변경 경로까지 확인해야 합니다.'},
-          note: '문제의 재현 환경을 비교하고 수정 전후 코드를 대조한 경험입니다.',
+          issue: {problem:'서버/클라이언트 실행 시 클라이언트의 점프 궤적이 끊기고 움직임이 걸리는 현상이 나타났습니다.',analysis:'입력·서버 처리뿐 아니라 매 Tick 캐릭터 수평 속도를 직접 변경하는 부분을 검토했습니다.',action:'공중에서 입력이 없을 때 수평 Velocity를 0으로 보간하는 코드를 제거했습니다.',result:'수평 속도 보간 구문을 제거했습니다. 관련 수정 내용은 2025년 6월 커밋에서 확인할 수 있습니다.',lesson:'네트워크 문제가 나타나더라도 원인을 RPC 한 곳으로 단정하지 않고, MovementComponent의 속도 변경 경로까지 확인해야 합니다.'},
           snippet: '// 이전 버전의 공중 감속 처리 (수정 커밋에서 제거)\nFVector Slowed = FMath::VInterpTo(\n    Horizontal, FVector::ZeroVector, DeltaTime, 2.0f);',
           evidence: [['수정 커밋', 'https://github.com/pju0205/TriForge/commit/6b56e0193d2fb3104963f9f4f88c8e08aa9b1a9b'], ['점프 처리 코드', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Private/Character/TFPlayerCharacter.cpp#L299-L342']],
           status: '수정 커밋 확인'
@@ -185,32 +178,40 @@ window.PORTFOLIO_DATA = {
         {
           id: 'rotation-issue', category: '문제 해결', eyebrow: 'DEBUGGING / FOLLOW-UP', title: '상대 캐릭터의 루트·머리 회전 오류',
           lead: '멀티플레이에서 다른 클라이언트가 본 캐릭터의 루트·머리 방향이 약 90° 틀어져 보이는 문제를 조사했습니다.',
-          detail: 'Offset Root Bone 조건 분기가 뒤바뀐 점을 수정하고, Offset Root Node의 변환값과 각 플레이어의 로컬/원격 제어 상태를 비교했습니다. SetRootTransform()에서 보정 회전과 로컬 RootTransform 갱신을 확인할 수 있으나, 모든 원격 클라이언트에 변환값이 적절히 복제되는지는 추가 검증이 필요합니다.',
+          detail: 'Offset Root Bone 조건 분기가 뒤바뀐 점을 수정하고, Offset Root Node의 변환값과 각 플레이어의 로컬/원격 제어 상태를 비교했습니다. SetRootTransform()에서 Offset Root Node의 변환값과 Yaw 보정값을 사용했습니다. 다만 이 변환값을 모든 원격 클라이언트에 일관되게 전달하는 과정은 완료 여부를 확인하지 못했습니다.',
           flow: [
             ['재현', '단독 정상 / 멀티 원격 시점 회전 오류'],
             ['관찰', 'Root·Capsule·Offset 변환 비교'],
             ['분기 수정', 'OffsetRootBoneEnabled 조건 점검'],
             ['회전 보정', 'Offset Transform Yaw + 90° 적용'],
-            ['추가 검증', '원격 복제·모든 시점 동작 확인 필요']
+            ['추가 검증', '원격 클라이언트별 회전 재검증']
           ],
-          issue: {problem:'멀티 환경에서 상대의 캐릭터 머리와 루트가 특정 각도에서 약 90° 틀어져 보였습니다.',analysis:'Offset Root Bone 분기 조건이 뒤바뀌어 있었고, 로컬과 원격 시점의 Transform 사용 방식도 확인이 필요했습니다.',action:'조건을 바로잡고 Offset Root Transform을 읽어 회전 보정값을 적용하는 코드를 작성했습니다.',result:'원인 분석 및 수정 코드는 확인됩니다. 최종 원격 동기화 성공 여부는 현재 자료만으로 단정하지 않습니다.',lesson:'애니메이션 오프셋과 캡슐 회전, 서버·클라이언트의 데이터 소유권을 함께 고려해야 했습니다.'},
-          note: '기술 면접에서 해결 여부와 남은 검증 범위를 구분해 설명할 수 있도록 정리했습니다.',
+          issue: {problem:'멀티 환경에서 상대의 캐릭터 머리와 루트가 특정 각도에서 약 90° 틀어져 보였습니다.',analysis:'Offset Root Bone 분기 조건이 뒤바뀌어 있었고, 로컬과 원격 시점의 Transform 사용 방식도 확인이 필요했습니다.',action:'조건을 바로잡고 Offset Root Transform을 읽어 회전 보정값을 적용하는 코드를 작성했습니다.',result:'Offset Root Bone 분기와 회전 보정 코드를 수정했습니다. 원격 클라이언트 전체의 동기화 완료 여부는 확인하지 못했습니다.',lesson:'애니메이션 오프셋과 캡슐 회전, 서버·클라이언트의 데이터 소유권을 함께 고려해야 했습니다.'},
           snippet: 'FTransform OffsetRootNodeTransform =\n    UAnimationWarpingLibrary::GetOffsetRootTransform(OffsetRootNode);\nFRotator AdjustedRotation(OffsetRotation.Pitch,\n    OffsetRotation.Yaw + 90.0f, OffsetRotation.Roll);',
           evidence: [['회전 처리 코드', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Private/Character/TFAnimInstance.cpp#L119-L155'], ['오류 분석 노트', 'https://app.notion.com/p/21466e4e96ff80d7a9f0fe074e7100a0']],
           status: '추가 검증 필요'
         },
         {
+          id: 'offset-node-cpp', category: '문제 해결', eyebrow: 'C++ / ANIMATION BLUEPRINT', title: 'Offset Root Node 값을 C++에서 사용하기',
+          lead: '애니메이션 그래프의 Offset Root Node 참조를 C++에서 읽으려 했지만, 노드를 그대로 접근하는 방식으로는 연결할 수 없었습니다.',
+          detail: 'AnimNodeReference 헤더를 포함하고 FAnimNodeReference 변수를 선언했습니다. 애니메이션 블루프린트에서 태그가 설정된 노드를 찾아 변수에 전달하고, C++에서 UAnimationWarpingLibrary::GetOffsetRootTransform()으로 해당 노드의 변환값을 가져오도록 연결했습니다.',
+          flow: [['문제', 'C++에서 AnimGraph 노드 접근 필요'],['타입 준비', 'Animation/AnimNodeReference.h 포함'],['노드 참조', 'FAnimNodeReference 변수 선언'],['BP 연결', '태그가 지정된 노드 참조 전달'],['변환값 읽기', 'GetOffsetRootTransform() 사용']],
+          issue: {problem:'AnimGraph의 Offset Root Node 데이터를 C++ 함수에서 직접 사용하기 어려웠습니다.',analysis:'애니메이션 그래프 노드 참조를 C++ 변수에 전달하는 경로가 필요했습니다.',action:'FAnimNodeReference를 선언하고 블루프린트에서 노드 참조를 받아 Transform을 읽도록 연결했습니다.',result:'C++ 코드에서 Offset Root Node의 Transform을 사용할 수 있는 경로를 구성했습니다.',lesson:'AnimGraph 노드를 C++에서 참조할 때는 노드 유형뿐 아니라 태그 설정과 블루프린트 데이터 전달 방식을 함께 확인해야 했습니다.'},
+          snippet: '#include "Animation/AnimNodeReference.h"\n\nUPROPERTY(EditAnywhere, BlueprintReadWrite)\nFAnimNodeReference OffsetRootNode;',
+          evidence: [['문제 및 연결 과정', 'https://app.notion.com/p/21466e4e96ff80d7a9f0fe074e7100a0'], ['AnimNode 참조 선언', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Public/Character/TFAnimInstance.h'], ['Offset Root 변환 읽기', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Private/Character/TFAnimInstance.cpp#L119-L155']],
+          status:'노드 참조 연결'
+        },
+        {
           id: 'chooser-visibility', category: '문제 해결', eyebrow: 'ENGINE INTEROP', title: 'Chooser Table에 C++ 함수가 표시되지 않던 문제',
           lead: '블루프린트·C++ 경계를 넘는 작업에서 함수가 Chooser Table의 선택 목록에 나오지 않는 현상을 기록했습니다.',
-          detail: 'Notion 디버깅 기록에 따르면 C++ 함수 메타데이터에 BlueprintThreadSafe를 추가해 Chooser Table에서 참조 가능하도록 조치했습니다. 해당 처리의 전체 런타임 검증 기록은 확보되지 않았습니다.',
+          detail: 'UFUNCTION 메타데이터에 BlueprintThreadSafe를 추가해 Chooser Table에서 C++ 함수를 선택할 수 있게 했습니다. ',
           flow: [
             ['문제 발견', 'Chooser Table에서 함수 선택 불가'],
             ['선언 점검', 'UFUNCTION 메타데이터 확인'],
             ['메타 설정', 'BlueprintThreadSafe 추가'],
             ['에디터 확인', '함수 목록 노출 확인 기록']
           ],
-          issue: {problem:'Chooser Table에서 기대한 C++ 함수가 검색되지 않았습니다.',analysis:'블루프린트에서 함수 참조를 허용하는 선언 메타데이터를 확인했습니다.',action:'함수 메타데이터에 BlueprintThreadSafe를 추가했습니다.',result:'Notion에 함수가 정상적으로 표시되었다는 기록이 남아 있습니다.',lesson:'언리얼에서는 함수 구현뿐 아니라 reflection 메타데이터가 에디터 연동 방식에 영향을 준다는 것을 확인했습니다.'},
-          note: '작은 사례지만 엔진의 C++ API와 에디터 도구를 연결하는 이해를 보여줍니다.',
+          issue: {problem:'Chooser Table에서 기대한 C++ 함수가 검색되지 않았습니다.',analysis:'블루프린트에서 함수 참조를 허용하는 선언 메타데이터를 확인했습니다.',action:'함수 메타데이터에 BlueprintThreadSafe를 추가했습니다.',result:'Chooser Table에서 함수가 표시되는 것을 확인했습니다.',lesson:'언리얼에서는 함수 구현뿐 아니라 reflection 메타데이터가 에디터 연동 방식에 영향을 준다는 것을 확인했습니다.'},
           snippet: 'UFUNCTION(BlueprintPure, Category = "MomvementAnlaysis",\n          meta = (BlueprintThreadSafe))',
           evidence: [['오류·조치 기록', 'https://app.notion.com/p/21466e4e96ff80d7a9f0fe074e7100a0'], ['애니메이션 헤더', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Public/Character/TFAnimInstance.h']],
           status: '코드·문서 확인'
@@ -219,10 +220,10 @@ window.PORTFOLIO_DATA = {
     },
     {
       id: 'battleline', order: '02', name: 'Project Battle Line', short: '4인 협동 보스 레이드 TPS', period: '2024.09 — 2024.12', team: '팀 프로젝트', engine: 'Unreal Engine 5.4', network: 'Listen Server', genre: 'TPS / PvE',
-      summary: '여러 플레이어가 협력해 보스를 공략하는 TPS. 카메라 기준 이동, 점프, 구르기·대시, 달리기 상태와 애니메이션 연결을 담당했습니다.',
+      summary: '4인 협동 레이드 TPS. 카메라 기준 이동, 점프·방향별 구르기, 달리기 상태 변경과 애니메이션·서버 반영을 구현했습니다.',
       myRole: '카메라 기준 캐릭터 이동, 점프·구르기·대시, 달리기 상태 및 애니메이션 연계',
       video: '-3ciZHhTgDc', repo: 'https://github.com/choiguri/GNU_PBL', cover: 'battle',
-      achievement: '2024 경상국립대학교 캡스톤디자인 경진대회 최우수상 (Notion 기록)',
+      achievement: '2024 경상국립대학교 캡스톤디자인 경진대회 최우수상',
       tags: ['C++', 'TPS Movement', 'Listen Server', 'Anim Montage', 'RepNotify'],
       categories: ['캐릭터 이동', '상태·애니메이션', '멀티플레이', '문제 해결'],
       features: [
@@ -231,7 +232,6 @@ window.PORTFOLIO_DATA = {
           lead: '플레이어가 바라보는 방향을 기준으로 WASD 입력이 직관적으로 동작하도록 이동 벡터를 계산했습니다.',
           detail: 'GetControlRotation()의 Yaw로 Forward/Right 방향 벡터를 만든 뒤, 2D InputActionValue를 AddMovementInput()으로 전달합니다. 컨트롤러의 입력 해석과 캐릭터 이동 처리를 분리했습니다.',
           flow: [['Enhanced Input','2D 이동 축 읽기'],['Controller Yaw','카메라의 수평 회전 분리'],['방향 벡터','Forward/Right 생성'],['AddMovementInput','전후/좌우 입력 적용']],
-          note: '카메라 회전을 이동 기준으로 사용하는 TPS 조작 구조를 구현했습니다.',
           snippet: 'ControlledPawn->AddMovementInput(ForwardDirection, InputAxisVector.Y);\nControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);',
           evidence: [['이동 입력 코드', 'https://github.com/choiguri/GNU_PBL/blob/main/Source/GNU_PBL/Private/Characters/GnuMyPlayerController.cpp#L483-L514']],
           status:'코드 확인'
@@ -241,7 +241,6 @@ window.PORTFOLIO_DATA = {
           lead: '입력 방향에 따라 구르기 몽타주와 LaunchCharacter 이동 방향을 선택하고, 종료 시 구르기 상태를 해제합니다.',
           detail: 'ServerMontageOnDodge()에서 낙하·피격·구르기 중복·쿨다운·스태미나를 확인합니다. SetDodgeMontage()는 전후좌우 방향별 몽타주와 이동 벡터를 고르고, OnDodgeMontageEnded()에서 상태를 해제합니다.',
           flow: [['Dodge 입력','MoveDirection 전달'],['서버 조건 검사','Falling / isDodge / Cooldown / Stamina'],['방향 선택','전·후·좌·우 Montage 선택'],['애니메이션·이동','Montage 재생 + LaunchCharacter'],['종료','MontageEnded → isDodge = false']],
-          note: '액션 도중의 조건 검사와 종료 이벤트를 한 흐름으로 설계했습니다.',
           snippet: 'if (GetCharacterMovement()->IsFalling()) return;\nif (isDodge || isDodgeCoolDown || Stamina < 40) return;',
           evidence: [['구르기 코드', 'https://github.com/choiguri/GNU_PBL/blob/main/Source/GNU_PBL/Private/Characters/GnuMyCharacter.cpp#L416-L528']],
           status:'코드 확인'
@@ -251,7 +250,6 @@ window.PORTFOLIO_DATA = {
           lead: '클라이언트 입력에서 서버에 달리기 상태 변경을 요청하고, 상태 갱신 결과를 RepNotify로 연결했습니다.',
           detail: 'ServerSprintStart()/ServerSprintEnd()가 UpdateSprintState()를 호출합니다. isSprint 상태 변경을 OnRep_IsSprinting()이 반영하고, 걷기·달리기 속도는 CharacterMovement의 MaxWalkSpeed로 적용합니다.',
           flow: [['Sprint 입력','PlayerController에서 달리기 시작/종료'],['Server RPC','ServerSprintStart / End'],['상태 업데이트','isSprint + MaxWalkSpeed'],['RepNotify','OnRep_IsSprinting'],['클라이언트 반영','동일 상태에 따른 이동 속도 갱신']],
-          note: '서버 권한과 로컬 체감 사이에 상태 동기화가 필요한 이유를 이해한 경험입니다.',
           snippet: 'void AGnuMyCharacter::OnRep_IsSprinting()\n{\n    UpdateSprintState(isSprint);\n}',
           evidence: [['달리기 동기화 코드', 'https://github.com/choiguri/GNU_PBL/blob/main/Source/GNU_PBL/Private/Characters/GnuMyCharacter.cpp#L310-L365']],
           status:'코드 확인'
@@ -261,18 +259,16 @@ window.PORTFOLIO_DATA = {
           lead: '연속 입력 중 점프와 구르기가 겹치는 상황을 막기 위해 각 동작의 시작 조건을 명확하게 구분했습니다.',
           detail: '서버 구르기 처리에서 IsFalling()이면 진입을 차단하고, 점프 입력에서는 isDodge 상태일 경우 Jump()를 호출하지 않습니다. 몽타주 종료 콜백에서 isDodge를 해제합니다.',
           flow: [['플레이어 입력','Jump 또는 Dodge'],['상태 검사','IsFalling / isDodge 확인'],['조건 분기','동작 간 충돌 가능 시 요청 거부'],['정상 실행','Jump 또는 Dodge Montage'],['종료 이벤트','상태 플래그 복원']],
-          issue: {problem:'빠른 연속 입력에서 점프와 구르기가 동시에 실행될 가능성이 있었습니다.',analysis:'동작별 시작 시점뿐 아니라 서로의 진행 상태를 참조할 필요가 있었습니다.',action:'구르기 시작 시 IsFalling() 검사, 점프 시 isDodge 검사, 몽타주 종료 시 상태 해제 로직을 배치했습니다.',result:'상호 배타 조건이 구현된 코드를 확인했습니다. 정량적인 동작 테스트 기록은 확인하지 못했습니다.',lesson:'액션의 실행 가능 여부는 하나의 입력 함수 안이 아니라 여러 동작의 시작·종료 상태와 함께 설계해야 한다는 점을 배웠습니다.'},
-          note: '동작 상태의 유효한 전환을 보장하기 위한 방어 로직입니다.',
-          snippet: 'if (GetCharacterMovement()->IsFalling()) return;\n// Dodge 진입 제한\nif (MyCharacter->isDodge) return;\n// Jump 입력 제한',
+          issue: {problem:'빠른 연속 입력에서 점프와 구르기가 동시에 실행될 가능성이 있었습니다.',analysis:'동작별 시작 시점뿐 아니라 서로의 진행 상태를 참조할 필요가 있었습니다.',action:'구르기 시작 시 IsFalling() 검사, 점프 시 isDodge 검사, 몽타주 종료 시 상태 해제 로직을 배치했습니다.',result:'구르기 중 점프가 실행되지 않고, 공중 상태에서는 구르기 요청이 차단되도록 조건을 추가했습니다.',lesson:'액션의 실행 가능 여부는 하나의 입력 함수 안이 아니라 여러 동작의 시작·종료 상태와 함께 설계해야 한다는 점을 배웠습니다.'},
+          snippet: 'if (GetCharacterMovement()->IsFalling()) return;\n// 구르기 진입 제한\nif (MyCharacter->isDodge) return;\n// 점프 입력 제한',
           evidence: [['구르기 진입 조건', 'https://github.com/choiguri/GNU_PBL/blob/main/Source/GNU_PBL/Private/Characters/GnuMyCharacter.cpp#L416-L427'], ['점프 입력 조건', 'https://github.com/choiguri/GNU_PBL/blob/main/Source/GNU_PBL/Private/Characters/GnuMyPlayerController.cpp#L662-L671']],
           status:'코드 확인'
         },
         {
           id: 'dodge-network', category: '멀티플레이', eyebrow: 'ACTION REPLICATION', title: '구르기 몽타주 멀티캐스트 경로',
           lead: '서버가 구르기 입력을 검증한 후 다른 플레이어의 화면에서도 액션을 표현하도록 멀티캐스트 함수를 연결했습니다.',
-          detail: 'ServerMontageOnDodge()에서 애니메이션, 스태미나·쿨다운, 이동 처리 후 MultiCastMontage_Dodge()를 호출합니다. 멀티캐스트에서도 몽타주/이동 경로를 처리하므로 실제 네트워크 권한·중복 실행 검증을 추가로 수행해야 합니다.',
+          detail: 'ServerMontageOnDodge()에서 애니메이션, 스태미나·쿨다운, 이동 처리 후 MultiCastMontage_Dodge()를 호출합니다. 멀티캐스트에서도 몽타주와 이동 처리가 이루어지므로, 서버와 클라이언트에서 중복 실행이 발생하는지는 별도로 확인해야 합니다.',
           flow: [['클라이언트 요청','Dodge 방향값 전달'],['ServerMontageOnDodge','서버 조건 검사·행동 실행'],['Multicast','다른 인스턴스에 구르기 전파'],['Montage + Launch','원격 시점의 동작 표현'],['검증 과제','권한·중복 실행 경로 점검']],
-          note: 'RPC의 호출 위치뿐 아니라 각 인스턴스에서 실행되는 코드의 범위를 점검하게 된 사례입니다.',
           snippet: 'PlayAnimMontage(DodgeMontage);\nLaunchCharacter(AddVector, true, true);\nMultiCastMontage_Dodge(Forward, Right);',
           evidence: [['구르기 RPC 코드', 'https://github.com/choiguri/GNU_PBL/blob/main/Source/GNU_PBL/Private/Characters/GnuMyCharacter.cpp#L416-L480']],
           status:'코드 확인 · 추가 검증'
