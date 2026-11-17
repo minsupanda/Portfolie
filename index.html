@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b1321" />
+  <meta name="description" content="이민수 — Unreal Engine / C++ 게임 클라이언트 개발자. Tri Forge, Project Battle Line의 캐릭터 이동·애니메이션·멀티플레이 구현 및 문제 해결 기록." />
+  <title>이민수 · Unreal Engine / C++ Portfolio</title>
+  <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTciIGZpbGw9IiMxMDFiMmMiLz48cGF0aCBkPSJNMTMgNDJWMjNoN3YzYzMtMyAxMS00IDE1IDAgNC00IDE2LTQgMTYgNnYxMGgtN1YzMmMwLTUtOC01LTggMHYxMGgtN1YzMmMwLTUtOS01LTkgMHYxMHoiIGZpbGw9IiNmM2Y1ZjQiLz48Y2lyY2xlIGN4PSI1MiIgY3k9IjQ3IiByPSI1IiBmaWxsPSIjOGRlMGM4Ii8+PC9zdmc+Cg==" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+:root{color-scheme:dark;--bg:#0b1220;--bg2:#101b2c;--panel:#121e30;--panel2:#152236;--line:#293447;--text:#f1f5f6;--muted:#a3b0c0;--subtle:#6f8193;--accent:#94e3c9;--accent2:#b9f4e3;--accent-bg:rgba(148,227,201,.105);--pill:#1a293b;--button-text:#0b1e20;--shadow:0 36px 80px rgba(0,0,0,.2)}
+html[data-theme="light"]{color-scheme:light;--bg:#f7f9f9;--bg2:#f0f4f4;--panel:#fff;--panel2:#f1f6f5;--line:#dbe4e3;--text:#14212b;--muted:#4d6471;--subtle:#758795;--accent:#137e71;--accent2:#196a65;--accent-bg:rgba(28,129,112,.08);--pill:#e8efef;--button-text:#fff;--shadow:0 28px 70px rgba(45,75,70,.09)}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:94px}body{margin:0;background:var(--bg);color:var(--text);font-family:Manrope,'Noto Sans KR',sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}body.modal-open{overflow:hidden}a{color:inherit;text-decoration:none}button{font:inherit}button,a{transition:background-color .2s,color .2s,border-color .2s,transform .2s}button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:4px}::selection{background:var(--accent);color:var(--bg)}.hidden{display:none!important}.wrap{width:min(1240px,calc(100% - 100px));margin-inline:auto}.noise{position:fixed;inset:0;pointer-events:none;opacity:.08;z-index:50;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.86' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.2'/%3E%3C/svg%3E")}.skip-link{position:absolute;top:-60px;left:1em;background:var(--accent);padding:10px;z-index:80}.skip-link:focus{top:10px}.micro,.kicker,.overline,.section-side,.brand-word,.hero-index,.visual-topline,.visual-bottomline,.diagram-index,.hero-scroll,.stat-grid strong,.card-index,.card-bottom,.meta-heading,.feature-pager,.feature-eyebrow,.status,.evidence a,.flow-label,.case-eyebrow,.about-detail>span,.belief>span,.contact-links a,.footer-inner,.deep-bottom,.count-label{font-family:'DM Mono',monospace;letter-spacing:.075em}.kicker{display:block;font-size:11px;color:var(--accent);font-weight:500;margin-bottom:22px}.micro{font-size:10px;color:var(--subtle)}.muted{color:var(--muted)}em{font-style:normal;color:var(--accent)}.site-header{position:sticky;top:0;z-index:45;border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(18px)}.header-inner{height:78px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:14px;font-weight:800}.brand-icon{display:grid;place-items:center;width:41px;height:41px;border:1px solid var(--line);border-radius:10px;font-size:23px;letter-spacing:-.15em;padding-right:6px}.brand-icon span{color:var(--accent)}.brand-word{font-size:11px;font-weight:600;white-space:nowrap}.nav-links{display:flex;gap:38px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--muted)}.nav-links a:hover,.footer-inner a:hover{color:var(--accent)}.header-actions{display:flex;align-items:center;gap:12px}.theme-toggle{cursor:pointer;border:1px solid var(--line);color:var(--text);background:none;border-radius:9px;width:41px;height:41px;font-size:20px;display:grid;place-items:center}.theme-toggle:hover{background:var(--pill)}.contact-button{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.06em;background:var(--accent);color:var(--button-text);border-radius:9px;display:flex;align-items:center;gap:18px;padding:13px 18px;font-weight:600}.contact-button:hover,.btn-primary:hover{transform:translateY(-2px);background:var(--accent2)}
+.hero{min-height:710px;position:relative;display:grid;grid-template-columns:1fr .95fr;gap:80px;align-items:center;padding-block:100px 120px}.hero-copy{position:relative;z-index:2}.overline{font-size:10px;color:var(--accent);display:flex;align-items:center;gap:12px}.signal-dot{height:7px;width:7px;background:var(--accent);border-radius:100%;box-shadow:0 0 0 5px var(--accent-bg)}.hero-index{font-size:11px;color:var(--subtle);margin-top:52px}.hero-index span{color:var(--accent);margin-inline:10px}.hero h1{font-family:'Noto Sans KR',sans-serif;font-weight:800;letter-spacing:-.065em;font-size:clamp(41px,4vw,67px);line-height:1.35;margin:20px 0 27px;white-space:pre-line;word-break:keep-all}.hero h1 em{font-style:normal}.hero-desc{font-size:15px;line-height:2;color:var(--muted);max-width:530px;word-break:keep-all}.hero-actions{display:flex;gap:13px;margin-top:40px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:space-between;gap:24px;padding:15px 22px;font-size:12px;font-weight:700;border-radius:9px}.btn-primary{background:var(--accent);color:var(--button-text)}.btn-ghost{border:1px solid var(--line);font-family:'DM Mono',monospace;letter-spacing:.05em}.btn-ghost:hover{background:var(--panel)}.hero-tech{margin-top:70px;display:flex;align-items:start;gap:18px}.hero-tech>span{padding-top:8px;white-space:nowrap}.hero-tech>div{display:flex;gap:7px;flex-wrap:wrap}.skill{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);border:1px solid var(--line);border-radius:100px;padding:5px 10px}.hero-visual{height:540px;border:1px solid var(--line);background:linear-gradient(150deg,var(--panel2),var(--bg));position:relative;overflow:hidden;border-radius:16px;box-shadow:var(--shadow)}.hero-visual:before{content:'';position:absolute;inset:0;background-image:linear-gradient(to right,color-mix(in srgb,var(--line) 35%,transparent) 1px,transparent 1px),linear-gradient(to bottom,color-mix(in srgb,var(--line) 35%,transparent) 1px,transparent 1px);background-size:40px 40px;mask-image:linear-gradient(to bottom,transparent,black 18%,black 80%,transparent)}.visual-topline,.visual-bottomline{position:absolute;left:29px;right:29px;display:flex;align-items:center;justify-content:space-between;font-size:10px;color:var(--subtle);z-index:2}.visual-topline{top:25px}.visual-bottomline{bottom:25px}.visual-bottomline span:last-child{color:var(--accent)}.hero-visual-inner{height:100%;position:relative}.visual-radar{position:absolute;left:50%;top:50%;height:350px;width:350px;transform:translate(-50%,-50%);border-radius:50%}.radar-ring{position:absolute;border:1px solid color-mix(in srgb,var(--accent) 19%,transparent);border-radius:50%;inset:0}.r2{inset:57px}.r3{inset:116px}.radar-pivot{position:absolute;inset:49%;background:var(--accent);border-radius:50%;box-shadow:0 0 30px var(--accent)}.hero-diagram-text{position:absolute;z-index:2;background:color-mix(in srgb,var(--panel) 92%,transparent);border:1px solid var(--line);padding:19px 21px;min-width:176px;box-shadow:0 15px 32px rgba(0,0,0,.11)}.hero-diagram-text .diagram-index{display:block;color:var(--accent);font-size:9px;margin-bottom:12px}.hero-diagram-text strong{display:block;font-size:17px;letter-spacing:-.025em;line-height:1.3}.hero-diagram-text small{display:block;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:13px}.v1{left:8%;top:19%}.v2{right:6%;top:39%}.v3{left:13%;bottom:13%}.hero-connector{position:absolute;inset:0;width:100%;height:100%;color:var(--accent);opacity:.6}.hero-scroll{position:absolute;bottom:45px;left:0;color:var(--subtle);display:flex;align-items:center;gap:18px;font-size:10px}.hero-scroll span{color:var(--accent);font-size:20px}.stat-strip{border-block:1px solid var(--line);background:var(--bg2)}.stat-grid{display:grid;grid-template-columns:repeat(3,1fr)}.stat-grid>div{display:flex;align-items:center;gap:24px;padding:29px 0}.stat-grid>div+div{padding-left:60px;border-left:1px solid var(--line)}.stat-no{font-family:'DM Mono',monospace;font-size:32px;letter-spacing:-.06em;font-weight:500;color:var(--accent)}.stat-grid strong{display:block;font-size:10px;color:var(--text)}.stat-grid div div span{display:block;font-size:12px;color:var(--muted);margin-top:4px}
+.section{padding-block:126px}.section-heading{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:49px}.section-heading h2,.about-grid h2,.contact-inner h2{font-family:'Noto Sans KR',sans-serif;font-size:clamp(32px,3vw,47px);letter-spacing:-.065em;line-height:1.42;margin:0 0 12px;font-weight:800;word-break:keep-all}.section-heading p{font-size:14px;color:var(--muted);margin:0;word-break:keep-all}.section-side{font-size:10px;color:var(--subtle);white-space:nowrap;margin-bottom:11px}.section-side .accent{color:var(--accent);font-size:22px;padding-left:12px}.projects-grid{display:grid;grid-template-columns:1fr 1fr;gap:25px}.project-card{border:1px solid var(--line);border-radius:14px;background:var(--panel);overflow:hidden;position:relative}.project-card:hover{border-color:color-mix(in srgb,var(--accent) 38%,var(--line));transform:translateY(-4px)}.project-image{height:300px;position:relative;overflow:hidden;background:radial-gradient(circle at 60% 45%,#284660,#121c2c 65%,#0a1221)}.project-image.battle{background:radial-gradient(circle at 57% 30%,#5d4d58,#25313b 48%,#0d1724)}.project-image img{height:100%;width:100%;object-fit:cover;filter:saturate(.66) contrast(1.02) brightness(.72);opacity:.8}.project-image:after{position:absolute;content:'';inset:0;background:linear-gradient(0deg,rgba(9,18,30,.88),transparent 70%);pointer-events:none}.image-wire{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}.image-wire svg{width:76%;height:76%;opacity:.35}.project-overlay{position:absolute;inset:auto 28px 26px;z-index:2;display:flex;justify-content:space-between;align-items:end;gap:15px;color:white}.project-overlay span{display:block;font-family:'DM Mono',monospace;font-size:11px;color:#dce8ec;letter-spacing:.08em}.project-overlay strong{font-size:28px;line-height:1.25;letter-spacing:-.045em}.play-video{position:absolute;right:24px;top:24px;border:1px solid rgba(255,255,255,.4);background:rgba(11,17,25,.55);color:#fff;border-radius:50%;height:48px;width:48px;z-index:3;cursor:pointer;font-size:16px}.play-video:hover{background:var(--accent);color:#082520;transform:scale(1.06)}.project-body{padding:32px}.card-index{color:var(--accent);font-size:10px}.project-body p{font-size:14px;color:var(--muted);line-height:1.9;min-height:77px;word-break:keep-all}.project-tag-row{display:flex;gap:6px;flex-wrap:wrap;margin:20px 0 28px}.project-tag-row span{background:var(--pill);color:var(--muted);font-family:'DM Mono',monospace;border-radius:4px;font-size:10px;padding:6px 9px}.project-card-links{border-top:1px solid var(--line);padding-top:22px;display:flex;align-items:center;justify-content:space-between;gap:15px}.project-card-links button{background:var(--accent);color:var(--button-text);border:0;border-radius:8px;cursor:pointer;padding:12px 18px;font-weight:700;font-size:12px}.project-card-links button:hover{background:var(--accent2)}.project-card-links>a{color:var(--muted);font-family:'DM Mono',monospace;font-size:11px}.project-card-links>a:hover{color:var(--accent)}
+.deep-section{background:var(--bg2);border-block:1px solid var(--line)}.deep-shell{border:1px solid var(--line);background:var(--panel);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}.deep-nav{padding:23px 32px;display:flex;align-items:center;gap:24px;border-bottom:1px solid var(--line)}.segmented{display:inline-flex;gap:5px;padding:5px;border:1px solid var(--line);border-radius:9px;background:var(--bg2)}.segmented button{cursor:pointer;font-family:'DM Mono',monospace;padding:9px 16px;font-size:11px;border:0;background:transparent;color:var(--muted);border-radius:6px}.segmented button.active{background:var(--accent);color:var(--button-text);font-weight:600}.count-label{margin-left:auto}.deep-project-summary{padding:36px 36px 22px;display:grid;grid-template-columns:1fr auto;gap:32px}.deep-project-summary h3{font-size:29px;margin:0 0 12px;letter-spacing:-.05em}.deep-project-summary p{font-size:13px;line-height:1.9;color:var(--muted);margin:0;max-width:770px}.deep-project-summary aside{text-align:right;font-family:'DM Mono',monospace;color:var(--subtle);font-size:11px}.deep-project-summary aside strong{display:block;color:var(--text);margin-top:8px;font-size:12px;font-weight:500}.category-tabs{display:flex;gap:8px;padding:14px 36px 24px;flex-wrap:wrap}.category-tabs button{border:1px solid var(--line);cursor:pointer;background:transparent;color:var(--muted);padding:9px 15px;border-radius:100px;font-size:12px}.category-tabs button.active{border-color:var(--accent);color:var(--accent);background:var(--accent-bg)}.feature-toolbar{display:flex;align-items:center;justify-content:space-between;padding:15px 36px;border-block:1px solid var(--line)}.feature-pager{color:var(--muted);font-size:11px}.feature-pager b{font-weight:500;color:var(--accent)}.feature-arrows{display:flex;gap:9px}.feature-arrows button{border:1px solid var(--line);background:none;color:var(--text);border-radius:8px;width:38px;height:38px;cursor:pointer;font-size:19px}.feature-arrows button:hover{background:var(--accent);color:var(--button-text)}.feature-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,.84fr);gap:0}.feature-main{padding:38px 38px 45px;border-right:1px solid var(--line);min-width:0}.feature-aside{padding:38px;min-width:0;background:color-mix(in srgb,var(--bg2) 48%,var(--panel))}.feature-eyebrow{font-size:10px;color:var(--accent)}.feature-main h3{font-family:'Noto Sans KR',sans-serif;font-size:clamp(25px,2.25vw,34px);letter-spacing:-.055em;line-height:1.5;margin:15px 0 17px}.feature-lead{font-size:15px;line-height:1.95;color:var(--text);word-break:keep-all}.feature-detail{font-size:13px;color:var(--muted);line-height:2;margin:24px 0 34px;word-break:keep-all}.meta-heading{font-size:10px;color:var(--subtle);margin-bottom:17px}.flow-panel{overflow-x:auto;border:1px solid var(--line);background:var(--bg2);border-radius:11px;padding:14px 14px 16px}.flow-svg{width:100%;min-width:735px;height:auto;display:block;overflow:visible}.flow-node{cursor:pointer;outline:none}.flow-node rect{fill:var(--panel);stroke:var(--line);stroke-width:1.5}.flow-node text{fill:var(--text);pointer-events:none;font-family:'Noto Sans KR',sans-serif;font-size:13px;font-weight:600}.flow-node .node-number{font-family:'DM Mono',monospace;font-size:9px;fill:var(--subtle)}.flow-node.active rect,.flow-node:hover rect{stroke:var(--accent);fill:var(--accent-bg)}.flow-node.active .node-number{fill:var(--accent)}.flow-connector{stroke:var(--subtle);stroke-width:2;fill:none}.flow-inspector{display:flex;gap:14px;align-items:start;border-top:1px solid var(--line);padding:15px 8px 0;margin-top:8px;min-height:70px}.flow-inspector .flow-label{white-space:nowrap;color:var(--accent);font-size:10px;padding-top:4px}.flow-inspector p{margin:0;font-size:12px;line-height:1.75;color:var(--muted);word-break:keep-all}.feature-note{margin-top:22px;background:var(--accent-bg);border-left:2px solid var(--accent);padding:15px 17px;font-size:12px;color:var(--muted);line-height:1.9}.feature-note b{color:var(--accent);margin-right:12px}.status{display:inline-flex;border:1px solid var(--line);color:var(--muted);font-size:10px;border-radius:99px;padding:7px 11px;margin-bottom:26px}.status:before{content:'';height:5px;width:5px;background:var(--accent);border-radius:50%;margin:auto 8px auto 0}.status.warning:before{background:#e5b877}.code-snippet{background:var(--bg);border:1px solid var(--line);border-radius:11px;overflow:hidden;margin-bottom:28px}.snippet-top{display:flex;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line);font-size:10px;font-family:'DM Mono',monospace;color:var(--subtle)}.snippet-top button{border:0;background:none;cursor:pointer;color:var(--accent);font-size:10px}.code-snippet pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;padding:22px 18px;font:12px/1.9 'DM Mono',monospace;color:var(--muted)}.evidence{display:flex;flex-wrap:wrap;gap:8px}.evidence a{font-size:10px;border:1px solid var(--line);border-radius:7px;padding:9px 11px;color:var(--text)}.evidence a:hover{border-color:var(--accent);color:var(--accent)}.issue-block{border-top:1px solid var(--line);margin-top:30px;padding-top:26px}.issue-step{display:grid;grid-template-columns:61px 1fr;gap:12px;margin-bottom:19px}.issue-step b{font-size:11px;font-family:'DM Mono',monospace;color:var(--accent);font-weight:500}.issue-step p{font-size:12px;color:var(--muted);line-height:1.85;margin:0}.deep-bottom{display:flex;justify-content:space-between;padding:18px 36px;border-top:1px solid var(--line);font-size:10px;color:var(--subtle)}
+.cases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.case-card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:27px;display:flex;flex-direction:column;min-height:370px;cursor:pointer;text-align:left;color:var(--text)}.case-card:hover{transform:translateY(-4px);border-color:var(--accent)}.case-eyebrow{color:var(--accent);font-size:10px}.case-card h3{font-size:20px;letter-spacing:-.04em;line-height:1.6;margin:24px 0 14px;word-break:keep-all}.case-card>p{font-size:13px;line-height:1.9;color:var(--muted);margin:0;word-break:keep-all}.case-card .case-phases{margin-top:auto;padding-top:29px;border-top:1px solid var(--line);display:flex;align-items:center;gap:8px;color:var(--subtle);font-size:10px;font-family:'DM Mono',monospace;flex-wrap:wrap}.case-card .case-phases i{font-style:normal;color:var(--accent)}.case-cta{display:flex;justify-content:space-between;align-items:center;margin-top:21px;font-size:11px;color:var(--accent);font-family:'DM Mono',monospace}
+.about-section{background:var(--bg2);border-block:1px solid var(--line)}.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:110px}.about-lead{font-size:15px;line-height:2;color:var(--muted);max-width:520px;word-break:keep-all}.belief{border-left:3px solid var(--accent);padding-left:24px;margin-top:45px}.belief>span{font-size:10px;color:var(--accent)}.belief p{font-size:17px;line-height:2;font-weight:600}.about-detail{padding:25px 0;border-bottom:1px solid var(--line)}.about-detail:first-child{padding-top:0}.about-detail>span{font-size:10px;color:var(--accent)}.about-detail h3{margin:14px 0 9px;font-size:21px;letter-spacing:-.035em}.about-detail p{margin:0;font-size:13px;color:var(--muted);line-height:2;word-break:keep-all}.contact-section{padding-block:130px}.contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:110px;align-items:end}.contact-inner h2{font-size:clamp(39px,4vw,60px)}.contact-inner p{color:var(--muted);font-size:14px}.contact-links>a{border-bottom:1px solid var(--line);padding:19px 0;display:flex;justify-content:space-between;font-family:'DM Mono',monospace;letter-spacing:.09em;font-size:12px}.contact-links>a:hover{color:var(--accent)}footer{border-top:1px solid var(--line)}.footer-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-block:28px;font-size:10px;color:var(--subtle)}.footer-inner>div{display:flex;gap:26px}.video-dialog{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:15px;width:min(970px,calc(100% - 30px));padding:22px;box-shadow:0 40px 100px rgba(0,0,0,.5)}.video-dialog::backdrop{background:rgba(3,9,16,.85);backdrop-filter:blur(6px)}.dialog-close{background:var(--accent);color:var(--button-text);border:0;border-radius:7px;cursor:pointer;display:block;margin:0 0 12px auto;width:36px;height:36px}.video-frame{aspect-ratio:16/9}.video-frame iframe{width:100%;height:100%;border:0;border-radius:7px}.video-dialog p{font-size:12px;color:var(--muted);margin:14px 0 0}
+@media(max-width:1080px){.wrap{width:min(100% - 52px,1200px)}.nav-links{gap:20px}.hero{gap:38px}.hero h1{font-size:47px}.hero-visual{height:485px}.feature-layout{grid-template-columns:1fr}.feature-main{border-right:0;border-bottom:1px solid var(--line)}.feature-aside{display:grid;grid-template-columns:1fr 1fr;gap:24px}.feature-aside .status,.feature-aside .meta-heading{grid-column:1/-1;margin:0}.issue-block{grid-column:1/-1;margin-top:0}.about-grid,.contact-inner{gap:60px}.stat-grid>div+div{padding-left:30px}}
+@media(max-width:750px){.wrap{width:calc(100% - 36px)}.header-inner{height:65px}.brand-word{font-size:10px}.nav-links{display:none}.contact-button{padding:10px 12px;gap:8px;font-size:10px}.theme-toggle{width:35px;height:35px}.hero{display:flex;flex-direction:column;align-items:stretch;gap:45px;padding-block:68px 95px;min-height:unset}.hero-index{margin-top:34px}.hero h1{font-size:clamp(36px,8vw,49px);margin-top:16px}.hero-desc{font-size:13px}.hero-actions{margin-top:27px}.hero-tech{margin-top:44px;flex-direction:column;gap:10px}.hero-visual{height:355px}.hero-diagram-text{padding:12px;min-width:123px}.hero-diagram-text strong{font-size:12px}.hero-diagram-text small{font-size:8px}.hero-diagram-text .diagram-index{font-size:8px;margin-bottom:7px}.v1{top:16%;left:6%}.v2{top:38%;right:5%}.v3{bottom:12%;left:7%}.visual-radar{width:250px;height:250px}.hero-scroll{bottom:35px}.stat-grid{grid-template-columns:1fr 1fr}.stat-grid>div{padding:17px 12px 17px 0}.stat-grid>div+div{padding-left:12px}.stat-grid>div:nth-child(3){grid-column:1/-1;border-top:1px solid var(--line);border-left:0;padding-left:0}.stat-no{font-size:25px}.stat-grid strong{font-size:9px}.stat-grid div div span{font-size:11px}.section{padding-block:75px}.section-heading{margin-bottom:32px}.section-heading h2,.about-grid h2{font-size:31px}.section-heading p{font-size:12px;line-height:1.9}.section-side{display:none}.projects-grid,.cases-grid,.about-grid,.contact-inner{grid-template-columns:1fr}.project-image{height:237px}.project-body{padding:22px}.project-body p{min-height:0}.deep-nav{padding:18px;gap:12px;flex-wrap:wrap}.deep-nav .count-label{margin-left:0}.deep-project-summary{padding:26px 20px 8px;grid-template-columns:1fr;gap:12px}.deep-project-summary h3{font-size:23px}.deep-project-summary aside{text-align:left}.category-tabs{padding:19px 20px;gap:6px}.category-tabs button{font-size:11px;padding:8px 11px}.feature-toolbar{padding:10px 20px}.feature-main,.feature-aside{padding:24px 20px}.feature-aside{grid-template-columns:1fr;gap:13px}.feature-aside .status,.feature-aside .meta-heading,.issue-block{grid-column:1}.feature-main h3{font-size:26px}.feature-lead{font-size:14px}.feature-detail{font-size:12px}.flow-panel{padding:5px}.flow-inspector{padding:14px 10px}.flow-node text{font-size:12px}.deep-bottom{padding:15px 20px;font-size:9px;gap:12px}.case-card{min-height:320px}.about-grid,.contact-inner{gap:35px}.contact-section{padding-block:85px}.footer-inner{flex-direction:column;align-items:flex-start;gap:17px}.footer-inner>div{flex-wrap:wrap;gap:18px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}}
+
+</style>
+  
+  
+  
+</head>
+<body>
+<a href="#main" class="skip-link">본문으로 건너뛰기</a>
+<div class="noise" aria-hidden="true"></div>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top" aria-label="포트폴리오 홈"><span class="brand-icon">m<span>.</span></span><span class="brand-word">MINSU <span class="muted">/ DEV</span></span></a>
+    <nav class="nav-links" aria-label="메인 메뉴"><a href="#work">PROJECTS</a><a href="#deep-dive">TECHNICAL</a><a href="#cases">CASE STUDIES</a><a href="#about">ABOUT</a></nav>
+    <div class="header-actions"><button type="button" class="theme-toggle" id="themeToggle" aria-label="라이트 모드로 전환" title="테마 전환"><span id="themeIcon">☀</span></button><a href="#contact" class="contact-button">CONTACT <span>↗</span></a></div>
+  </div>
+</header>
+<main id="main">
+  <section id="top" class="hero wrap">
+    <div class="hero-copy">
+      <div class="overline"><span class="signal-dot"></span> OPEN TO GAME CLIENT ENGINEERING</div>
+      <div class="hero-index">PORTFOLIO <span>—</span> 2026</div>
+      <h1 id="heroHeadline">플레이어의 움직임을,<br><em>코드로 설계합니다.</em></h1>
+      <p class="hero-desc" id="heroIntro"></p>
+      <div class="hero-actions"><a class="btn btn-primary" href="#work">프로젝트 살펴보기 <span>↘</span></a><a class="btn btn-ghost" href="https://github.com/minsupanda" target="_blank" rel="noopener noreferrer" id="heroGithub">GITHUB <span>↗</span></a></div>
+      <div class="hero-tech"><span class="micro">CORE EXPERTISE</span><div id="heroSkills"></div></div>
+    </div>
+    <div class="hero-visual" aria-label="입력에서 애니메이션 동기화까지의 구현 관심 영역">
+      <div class="visual-topline"><span>CHARACTER SYSTEM</span><span>UE5 / C++</span></div>
+      <div class="hero-visual-inner">
+        <div class="visual-radar"><span class="radar-ring r1"></span><span class="radar-ring r2"></span><span class="radar-ring r3"></span><span class="radar-pivot"></span></div>
+        <div class="hero-diagram-text v1"><span class="diagram-index">01 / INPUT</span><strong>Player<br>Controller</strong><small>Enhanced Input</small></div>
+        <div class="hero-diagram-text v2"><span class="diagram-index">02 / LOGIC</span><strong>Movement<br>System</strong><small>State & Collision</small></div>
+        <div class="hero-diagram-text v3"><span class="diagram-index">03 / RESULT</span><strong>Animation<br>& Network</strong><small>Pose Search / RPC</small></div>
+        <svg class="hero-connector" viewBox="0 0 700 540" preserveAspectRatio="none" aria-hidden="true"><path d="M190 165 C 310 165, 240 268, 350 268 S 450 390, 520 390" fill="none" stroke="currentColor" stroke-dasharray="5 7" stroke-width="1.5"/><circle cx="350" cy="268" r="5" fill="currentColor"/></svg>
+      </div>
+      <div class="visual-bottomline"><span>DESIGNED FOR FEEL</span><span>BUILT WITH LOGIC ↗</span></div>
+    </div>
+    <div class="hero-scroll">SCROLL TO EXPLORE <span>↓</span></div>
+  </section>
+  <section class="stat-strip"><div class="wrap stat-grid"><div><span class="stat-no">02</span><div><strong>SELECTED PROJECTS</strong><span>멀티플레이 게임 2개</span></div></div><div><span class="stat-no">UE5</span><div><strong>PRIMARY ENGINE</strong><span>Unreal Engine · C++</span></div></div><div><span class="stat-no">01</span><div><strong>FOCUS</strong><span>캐릭터의 조작감과 움직임</span></div></div></div></section>
+  <section id="work" class="section wrap section-work">
+    <div class="section-heading"><div><span class="kicker">01 / SELECTED WORK</span><h2>직접 구현한 <em>경험</em></h2><p>프로젝트의 전체 기능보다, 제가 책임진 시스템과 기술적 판단을 중심으로 정리했습니다.</p></div><span class="section-side">2024 — 2025 <span class="accent">↘</span></span></div>
+    <div id="projectCards" class="projects-grid"></div>
+  </section>
+  <section id="deep-dive" class="section deep-section">
+    <div class="wrap">
+      <div class="section-heading"><div><span class="kicker">02 / ENGINEERING NOTES</span><h2>코드 뒤의 <em>설계와 흐름</em></h2><p>카테고리를 고르고 화살표로 사례를 이동하세요. 다이어그램 노드를 선택하면 동작 설명이 나타납니다.</p></div><span class="section-side">SELECT A SYSTEM <span class="accent">↘</span></span></div>
+      <div class="deep-shell" id="deepShell">
+        <div class="deep-nav"><span class="micro">PROJECT SELECT</span><div id="projectSelector" class="segmented"></div><span id="featureCount" class="micro count-label"></span></div>
+        <div class="deep-project-summary" id="deepProjectSummary"></div>
+        <div id="categoryTabs" class="category-tabs" role="tablist" aria-label="기술 카테고리"></div>
+        <div class="feature-toolbar"><div id="featurePager" class="feature-pager"></div><div class="feature-arrows"><button id="prevFeature" type="button" aria-label="이전 구현 사례">←</button><button id="nextFeature" type="button" aria-label="다음 구현 사례">→</button></div></div>
+        <div id="featureContent" class="feature-layout" aria-live="polite"></div>
+        <div class="deep-bottom"><span>← → 키보드로 탐색 가능</span><span>코드 / Notion 원문 링크 제공</span></div>
+      </div>
+    </div>
+  </section>
+  <section id="cases" class="section wrap section-cases">
+    <div class="section-heading"><div><span class="kicker">03 / PROBLEM SOLVING</span><h2>문제를 만나면, <em>원인부터</em></h2><p>발생한 현상, 조사한 경로, 코드 변경, 확인된 결과를 한눈에 볼 수 있도록 구성했습니다.</p></div><span class="section-side">REAL ENGINEERING RECORDS</span></div>
+    <div id="caseCards" class="cases-grid"></div>
+  </section>
+  <section id="about" class="section about-section"><div class="wrap about-grid"><div><span class="kicker">04 / ABOUT & APPROACH</span><h2>왜 동작하는지<br><em>이해하는 개발자</em></h2><p class="about-lead" id="aboutLead"></p><div class="belief"><span>WORKING PRINCIPLE</span><p id="principle"></p></div></div><div class="about-right"><div class="about-detail"><span>01 / METHOD</span><h3>입력에서 화면까지</h3><p>입력, 상태 변경, 이동 컴포넌트, 애니메이션, 원격 반영 흐름을 함수 단위로 이해하려 합니다.</p></div><div class="about-detail"><span>02 / DEBUGGING</span><h3>실행 환경을 나누어 검증</h3><p>단독 실행과 서버·클라이언트 실행을 구분하고, 재현 가능한 현상과 코드 변경 기록을 대조합니다.</p></div><div class="about-detail"><span>03 / DEVELOPMENT</span><h3>플레이어가 느끼는 반응</h3><p>조작감과 동작의 일관성을 중요하게 생각합니다. 작은 움직임의 차이가 플레이 경험을 바꿀 수 있다고 믿습니다.</p></div></div></div></section>
+  <section id="contact" class="section contact-section"><div class="wrap contact-inner"><div><span class="kicker">05 / CONTACT</span><h2>함께 만들<br><em>다음 움직임.</em></h2><p>프로젝트 코드와 구현 과정을 살펴봐 주셔서 감사합니다.</p></div><div class="contact-links"><a id="contactGithub" href="https://github.com/minsupanda" target="_blank" rel="noopener noreferrer">GITHUB PROFILE <span>↗</span></a><a id="contactNotion" href="https://app.notion.com/p/40f66e4e96ff8191bb54c8aee82f848e" target="_blank" rel="noopener noreferrer">DEVELOPMENT NOTES <span>↗</span></a><a id="contactEmail" class="hidden" href="#">EMAIL <span>↗</span></a></div></div></section>
+</main>
+<footer><div class="wrap footer-inner"><span>© 2026 MINSU LEE. BUILT AROUND REAL CODE.</span><div><span>UNREAL ENGINE / C++</span><a href="admin.html" title="관리자 로그인">ADMIN ↗</a><a href="#top">BACK TO TOP ↑</a></div></div></footer>
+<dialog id="videoDialog" class="video-dialog"><button type="button" class="dialog-close" id="closeVideo" aria-label="영상 닫기">✕</button><div id="videoFrame" class="video-frame"></div><p id="videoCaption"></p></dialog>
+<script id="structuredData" type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"이민수","jobTitle":"Game Client Programmer","knowsAbout":["Unreal Engine","C++","Character Movement","Animation","Multiplayer"]}</script>
+<script>
+// Supabase 연결 시 아래 값만 설정하세요. anon key는 공개 가능한 키지만, DB 권한은 반드시 RLS에서 보호해야 합니다.
+window.PORTFOLIO_CONFIG = {
+  supabaseUrl: '',
+  supabaseAnonKey: ''
+};
+
+</script>
+<script>
+/* 공개 포트폴리오 원본 데이터. Supabase 게시본이 있으면 해당 데이터로 덮어씁니다. */
+window.PORTFOLIO_DATA = {
+  profile: {
+    name: '이민수',
+    english: 'MINSU LEE',
+    role: 'Unreal Engine / C++ Game Client Programmer',
+    headline: '플레이어의 움직임을,\n코드로 설계합니다.',
+    intro: '캐릭터 이동과 애니메이션, 멀티플레이 동기화를 구현하며 동작의 원리를 이해하려 노력해 왔습니다. 기능이 왜 그렇게 동작하는지 확인하고, 문제를 재현하며 개선하는 개발자입니다.',
+    about: '경상국립대학교 컴퓨터공학 전공. 4인 협동 레이드와 1:1 FPS 프로젝트에서 캐릭터 조작·이동 상태·애니메이션을 담당했습니다. 게임의 재미는 조작에 대한 즉각적이고 예측 가능한 반응에서 시작한다고 생각합니다.',
+    principle: '코드를 동작시키는 것에서 멈추지 않고, 왜 그렇게 동작하는지 설명할 수 있도록 공부합니다.',
+    school: '경상국립대학교 · 컴퓨터공학',
+    focus: ['C++', 'Unreal Engine 5', 'Character Movement', 'Animation', 'Multiplayer RPC', 'Blueprint', 'Git'],
+    github: 'https://github.com/minsupanda',
+    notion: 'https://app.notion.com/p/40f66e4e96ff8191bb54c8aee82f848e',
+    email: ''
+  },
+  projects: [
+    {
+      id: 'triforge', order: '01', name: 'Tri Forge', short: '1:1 멀티플레이 FPS', period: '2025.03 — 2025.06', team: '3인 팀', engine: 'Unreal Engine 5.4', network: 'Dedicated Server', genre: 'FPS / PvP',
+      summary: '빠른 이동과 정확한 조작이 중요한 1:1 대전 FPS. 이동·슬라이딩·벽타기, 상태 기반 애니메이션과 네트워크 상의 캐릭터 동작을 구현했습니다.',
+      myRole: '캐릭터 이동·조작 시스템, 슬라이딩과 벽타기, 모션 매칭 처리 분석·C++ 재구성',
+      video: 'lo1SQH9PyY0', repo: 'https://github.com/pju0205/TriForge', cover: 'tri',
+      achievement: '졸업작품 · PBL2 A+ (Notion 기록)',
+      tags: ['C++', 'Animation', 'Pose Search', 'RPC', 'Wall Run'],
+      categories: ['모션 매칭', '이동 시스템', '멀티플레이', '문제 해결'],
+      features: [
+        {
+          id: 'motion-pipeline', category: '모션 매칭', eyebrow: 'ANIMATION PIPELINE', title: '모션 매칭의 핵심 흐름을 C++로 재구성',
+          lead: 'Game Animation Sample의 블루프린트 로직을 분석하고, 애니메이션 인스턴스의 업데이트 흐름을 C++로 연결했습니다.',
+          detail: 'NativeUpdateAnimation()에서 UpdateEssentialValues() → GenerateTrajectory() → UpdateStates() 순서로 갱신합니다. 엔진의 Pose Search 기능을 직접 재구현한 것은 아니며, 입력 데이터와 상태 갱신부를 C++로 구성한 작업입니다.',
+          flow: [
+            ['NativeUpdateAnimation', '매 프레임 애니메이션 갱신의 시작점'],
+            ['UpdateEssentialValues', 'Transform·Acceleration·Velocity·Database 태그 갱신'],
+            ['GenerateTrajectory', '미래 이동 궤적·충돌·FutureVelocity 계산'],
+            ['UpdateStates', 'MovementMode·MovementState·Gait·RotationMode 갱신'],
+            ['Pose Search', '갱신 데이터를 엔진의 포즈 선택 흐름에 제공']
+          ],
+          note: 'Blueprint의 실행 순서를 함수 단위로 나눈 후, 상태 업데이트와 애니메이션 선택의 책임을 구분했습니다.',
+          snippet: 'UpdateEssentialValues();\nGenerateTrajectory(DeltaTime);\nUpdateStates();',
+          evidence: [
+            ['C++ 처리 순서', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Private/Character/TFAnimInstance.cpp#L58-L92'],
+            ['분석 기록', 'https://app.notion.com/p/1c466e4e96ff80aa9e42f64c0f5f48c4']
+          ],
+          status: '코드 확인'
+        },
+        {
+          id: 'trajectory', category: '모션 매칭', eyebrow: 'POSE SEARCH', title: '과거·미래 궤적과 이동 상태 판단',
+          lead: '현재 속도만으로는 표현하기 어려운 시작·정지·방향 전환의 의도를 미래 궤적과 함께 해석하도록 구성했습니다.',
+          detail: 'Speed2D에 따라 Idle/Moving 궤적 데이터를 선택합니다. PoseSearchGenerateTrajectory()에 과거 30개, 미래 0.1초 간격 15개 샘플을 설정하고, 0.4초와 0.5초 샘플의 위치 차이로 FutureVelocity를 계산합니다.',
+          flow: [
+            ['Speed2D 확인', '현재 이동 속도로 Idle/Moving 데이터 선택'],
+            ['궤적 생성', 'PoseSearchGenerateTrajectory 호출'],
+            ['월드 충돌', 'HandleTrajectoryWorldCollisions 적용'],
+            ['FutureVelocity', '0.4초와 0.5초 위치 변화량으로 추정'],
+            ['상태 판정', '현재·미래 속도와 방향을 조건에 활용']
+          ],
+          note: '과거 샘플 30개·미래 15개는 코드의 설정값이며 성능 향상 수치가 아닙니다.',
+          snippet: 'UPoseSearchTrajectoryLibrary::PoseSearchGenerateTrajectory(\n    AnimInst, InTrajectoryData, DeltaTime, Trajectory,\n    PreviousDesiredControllerYaw, Trajectory, -1.0f, 30, 0.1f, 15);',
+          evidence: [
+            ['궤적 계산 코드', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Private/Character/TFAnimInstance.cpp#L218-L284'],
+            ['Generate Trajectory 노트', 'https://app.notion.com/p/1c466e4e96ff80439b06ca019b6e83e5']
+          ],
+          status: '코드 확인'
+        },
+        {
+          id: 'motion-states', category: '모션 매칭', eyebrow: 'STATE TRANSITIONS', title: 'Start · Pivot · Turn 전환 조건',
+          lead: '이동의 시작, 반전, 제자리 회전처럼 유사해 보이는 상황을 속도와 방향, 데이터베이스 태그로 구분했습니다.',
+          detail: 'isMoving(), isStarting(), isPivoting(), ShouldTurnInPlace(), ShouldSpinTransition() 등의 조건 함수를 사용합니다. 현재/미래 속도의 크기와 방향, 선택된 데이터베이스 태그, 루트 회전량을 판정에 반영합니다.',
+          flow: [
+            ['현재·미래 속도', 'Velocity·FutureVelocity 읽기'],
+            ['이동 의도', '정지/이동 및 시작 여부 판단'],
+            ['방향 변화', 'Pivot·Turn 조건 검사'],
+            ['DB 태그', '현재 선택된 포즈 데이터 확인'],
+            ['전환 조건', 'AnimGraph에서 사용할 상태 플래그 산출']
+          ],
+          note: '전환 조건의 존재는 코드로 확인되지만 모든 네트워크 상황에서 정상 동작한다는 검증은 별개입니다.',
+          snippet: 'UKismetMathLibrary::NotEqual_VectorVector(Velocity, FVector(0.0f, 0.0f, 0.0f), 0.1f) &&\nUKismetMathLibrary::NotEqual_VectorVector(FutureVelocity, FVector(0.0f, 0.0f, 0.0f), 0.1f)',
+          evidence: [['전환 조건 원본 코드', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Private/Character/TFAnimInstance.cpp#L383-L489'], ['상태 분석 문서', 'https://app.notion.com/p/1c566e4e96ff80c18cf0ee4ed6349381']],
+          status: '코드 확인'
+        },
+        {
+          id: 'directional-gait', category: '이동 시스템', eyebrow: 'MOVEMENT CONTROL', title: '방향별 속도와 Gait 관리',
+          lead: '전진·횡이동·후진에 같은 속도를 적용하지 않고, Walk/Sprint와 이동 방향을 조합해 최대 속도를 선택했습니다.',
+          detail: 'CalculateDirection()으로 이동 각도를 구하고, GetDesiredGait()와 CalculateMaxSpeed()로 CurrentSpeed를 계산해 CharacterMovement의 MaxWalkSpeed를 갱신합니다. 달리기 상태는 서버 요청 경로도 갖습니다.',
+          flow: [
+            ['이동 입력', 'PlayerController에서 카메라 기준 축 계산'],
+            ['Gait 갱신', '걷기/달리기 상태 읽기'],
+            ['방향 계산', 'CalculateDirection(velocity, rotation)'],
+            ['속도 산출', '전진·횡·후진 방향별 속도 계산'],
+            ['이동 적용', 'MaxWalkSpeed 갱신']
+          ],
+          note: '애니메이션 상태와 실제 이동 속도가 서로 영향을 주는 구조를 이해하게 된 구현 경험입니다.',
+          snippet: 'GetDesiredGait();\nCurrentSpeed = CalculateMaxSpeed(StrafeSpeedMap);\nMovementComponent->MaxWalkSpeed = CurrentSpeed;',
+          evidence: [['이동 상태 코드', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Private/Character/TFPlayerCharacter.cpp#L146-L193'], ['입력 처리', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Private/Character/TFPlayerController.cpp#L107-L121']],
+          status: '코드 확인'
+        },
+        {
+          id: 'sliding', category: '이동 시스템', eyebrow: 'ADVANCED MOVEMENT', title: '슬라이딩 조건·몽타주·사운드 동기화',
+          lead: '달리기 중 전방으로 이동할 때만 슬라이딩할 수 있도록 시작 조건을 제한하고, 네트워크 상의 연출 실행 흐름을 구성했습니다.',
+          detail: 'Sprint 상태, 비슬라이딩, 비공중 조건을 먼저 검사합니다. Forward와 Velocity의 내적이 0.8 이상인 경우 ServerRequestSlide()를 요청하고, 서버에서 속도를 확인한 뒤 MulticastPlaySlideMontage()를 호출합니다. 몽타주 종료와 사운드 중지도 별도로 처리합니다.',
+          flow: [
+            ['Slide 입력', 'Sprint·Falling·Sliding 여부 검사'],
+            ['방향 내적', 'Forward · Velocity ≥ 0.8'],
+            ['Server RPC', 'ServerRequestSlide()'],
+            ['Multicast', '몽타주·사운드 실행'],
+            ['종료 처리', '타이머/몽타주 종료·효과 정리']
+          ],
+          note: '연출 시작뿐 아니라 중복 실행 방지와 종료 과정까지 함께 설계했습니다.',
+          snippet: 'if (Dot >= 0.8f)\n{\n    TFCharacter->PlaySlidMontage();\n}',
+          evidence: [['입력 조건', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Private/Character/TFPlayerController.cpp#L179-L201'], ['서버·멀티캐스트', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Private/Character/TFPlayerCharacter.cpp#L403-L505']],
+          status: '코드 확인'
+        },
+        {
+          id: 'wallrun', category: '이동 시스템', eyebrow: 'ADVANCED MOVEMENT', title: '벽 감지와 벽타기 방향 계산',
+          lead: '공중에서 좌우 벽을 탐지하고, 벽의 법선 벡터로 진행 방향을 계산해 짧은 벽타기 이동을 구현했습니다.',
+          detail: '좌우 60 유닛 LineTrace로 벽을 감지하고 LeftWall/RightWall 상태를 결정합니다. 벽 법선과 UpVector의 외적 방향으로 속도를 설정하며 GravityScale을 조정합니다. 0.5초 후 종료하고 중력을 복원합니다. 벽타기 중 점프는 LaunchCharacter()로 처리합니다.',
+          flow: [
+            ['공중 상태', 'IsFalling 상태에서 벽 검사'],
+            ['좌우 LineTrace', '좌우 60 유닛 감지'],
+            ['벽 법선', '좌/우 벽에 따라 외적 방향 계산'],
+            ['벽타기 이동', 'Velocity 설정·중력 조정'],
+            ['종료/점프', '0.5초 후 복원 또는 벽 점프']
+          ],
+          note: '표면 법선과 벡터 외적을 캐릭터의 실제 이동 방향에 연결한 구현입니다.',
+          snippet: 'WallForward = FVector::CrossProduct(WallNormal, FVector::UpVector);\nWallForward.Normalize();\nGetCharacterMovement()->Velocity = WallForward * 600.f;',
+          evidence: [['벽타기 코드', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Private/Character/TFPlayerCharacter.cpp#L199-L297'], ['벽 점프 코드', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Private/Character/TFPlayerCharacter.cpp#L299-L342']],
+          status: '코드 확인'
+        },
+        {
+          id: 'jump-stutter', category: '문제 해결', eyebrow: 'DEBUGGING / COMMIT VERIFIED', title: '멀티플레이에서 점프가 끊기던 현상',
+          lead: '단독 실행에서는 정상적이지만 서버·클라이언트 환경에서 클라이언트의 점프 궤적이 끊기는 문제를 추적했습니다.',
+          detail: 'CustomJump()의 로컬 실행·서버 요청 경로와 이동 보정 코드를 함께 확인했습니다. 2025년 6월의 수정 커밋에서 공중 상태의 수평 속도를 매 Tick 0에 가깝게 보간하던 VInterpTo 처리를 제거한 변경을 확인할 수 있습니다.',
+          flow: [
+            ['재현', '단독 정상 / 멀티 클라이언트에서 점프 끊김'],
+            ['경로 점검', '로컬 Jump와 ServerCustomJump 흐름 비교'],
+            ['원인 후보', '공중 중 수평 속도 직접 변경 검토'],
+            ['코드 수정', 'Tick 내 VInterpTo 보간 처리 제거'],
+            ['변경 기록', '점프 끊김 수정 커밋 존재']
+          ],
+          issue: {problem:'서버/클라이언트 실행 시 클라이언트의 점프 궤적이 끊기고 움직임이 걸리는 현상이 나타났습니다.',analysis:'입력·서버 처리뿐 아니라 매 Tick 캐릭터 수평 속도를 직접 변경하는 부분을 검토했습니다.',action:'공중에서 입력이 없을 때 수평 Velocity를 0으로 보간하는 코드를 제거했습니다.',result:'점프 끊김 수정 명시 커밋을 확인했습니다. 배포 환경 전체에 대한 독립 실행 검증은 이 조사에서 수행하지 않았습니다.',lesson:'네트워크 문제가 나타나더라도 원인을 RPC 한 곳으로 단정하지 않고, MovementComponent의 속도 변경 경로까지 확인해야 합니다.'},
+          note: '문제의 재현 환경을 비교하고 수정 전후 코드를 대조한 경험입니다.',
+          snippet: '// 이전 버전의 공중 감속 처리 (수정 커밋에서 제거)\nFVector Slowed = FMath::VInterpTo(\n    Horizontal, FVector::ZeroVector, DeltaTime, 2.0f);',
+          evidence: [['수정 커밋', 'https://github.com/pju0205/TriForge/commit/6b56e0193d2fb3104963f9f4f88c8e08aa9b1a9b'], ['점프 처리 코드', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Private/Character/TFPlayerCharacter.cpp#L299-L342']],
+          status: '수정 커밋 확인'
+        },
+        {
+          id: 'rotation-issue', category: '문제 해결', eyebrow: 'DEBUGGING / FOLLOW-UP', title: '상대 캐릭터의 루트·머리 회전 오류',
+          lead: '멀티플레이에서 다른 클라이언트가 본 캐릭터의 루트·머리 방향이 약 90° 틀어져 보이는 문제를 조사했습니다.',
+          detail: 'Offset Root Bone 조건 분기가 뒤바뀐 점을 수정하고, Offset Root Node의 변환값과 각 플레이어의 로컬/원격 제어 상태를 비교했습니다. SetRootTransform()에서 보정 회전과 로컬 RootTransform 갱신을 확인할 수 있으나, 모든 원격 클라이언트에 변환값이 적절히 복제되는지는 추가 검증이 필요합니다.',
+          flow: [
+            ['재현', '단독 정상 / 멀티 원격 시점 회전 오류'],
+            ['관찰', 'Root·Capsule·Offset 변환 비교'],
+            ['분기 수정', 'OffsetRootBoneEnabled 조건 점검'],
+            ['회전 보정', 'Offset Transform Yaw + 90° 적용'],
+            ['추가 검증', '원격 복제·모든 시점 동작 확인 필요']
+          ],
+          issue: {problem:'멀티 환경에서 상대의 캐릭터 머리와 루트가 특정 각도에서 약 90° 틀어져 보였습니다.',analysis:'Offset Root Bone 분기 조건이 뒤바뀌어 있었고, 로컬과 원격 시점의 Transform 사용 방식도 확인이 필요했습니다.',action:'조건을 바로잡고 Offset Root Transform을 읽어 회전 보정값을 적용하는 코드를 작성했습니다.',result:'원인 분석 및 수정 코드는 확인됩니다. 최종 원격 동기화 성공 여부는 현재 자료만으로 단정하지 않습니다.',lesson:'애니메이션 오프셋과 캡슐 회전, 서버·클라이언트의 데이터 소유권을 함께 고려해야 했습니다.'},
+          note: '기술 면접에서 해결 여부와 남은 검증 범위를 구분해 설명할 수 있도록 정리했습니다.',
+          snippet: 'FTransform OffsetRootNodeTransform =\n    UAnimationWarpingLibrary::GetOffsetRootTransform(OffsetRootNode);\nFRotator AdjustedRotation(OffsetRotation.Pitch,\n    OffsetRotation.Yaw + 90.0f, OffsetRotation.Roll);',
+          evidence: [['회전 처리 코드', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Private/Character/TFAnimInstance.cpp#L119-L155'], ['오류 분석 노트', 'https://app.notion.com/p/21466e4e96ff80d7a9f0fe074e7100a0']],
+          status: '추가 검증 필요'
+        },
+        {
+          id: 'chooser-visibility', category: '문제 해결', eyebrow: 'ENGINE INTEROP', title: 'Chooser Table에 C++ 함수가 표시되지 않던 문제',
+          lead: '블루프린트·C++ 경계를 넘는 작업에서 함수가 Chooser Table의 선택 목록에 나오지 않는 현상을 기록했습니다.',
+          detail: 'Notion 디버깅 기록에 따르면 C++ 함수 메타데이터에 BlueprintThreadSafe를 추가해 Chooser Table에서 참조 가능하도록 조치했습니다. 해당 처리의 전체 런타임 검증 기록은 확보되지 않았습니다.',
+          flow: [
+            ['문제 발견', 'Chooser Table에서 함수 선택 불가'],
+            ['선언 점검', 'UFUNCTION 메타데이터 확인'],
+            ['메타 설정', 'BlueprintThreadSafe 추가'],
+            ['에디터 확인', '함수 목록 노출 확인 기록']
+          ],
+          issue: {problem:'Chooser Table에서 기대한 C++ 함수가 검색되지 않았습니다.',analysis:'블루프린트에서 함수 참조를 허용하는 선언 메타데이터를 확인했습니다.',action:'함수 메타데이터에 BlueprintThreadSafe를 추가했습니다.',result:'Notion에 함수가 정상적으로 표시되었다는 기록이 남아 있습니다.',lesson:'언리얼에서는 함수 구현뿐 아니라 reflection 메타데이터가 에디터 연동 방식에 영향을 준다는 것을 확인했습니다.'},
+          note: '작은 사례지만 엔진의 C++ API와 에디터 도구를 연결하는 이해를 보여줍니다.',
+          snippet: 'UFUNCTION(BlueprintPure, Category = "MomvementAnlaysis",\n          meta = (BlueprintThreadSafe))',
+          evidence: [['오류·조치 기록', 'https://app.notion.com/p/21466e4e96ff80d7a9f0fe074e7100a0'], ['애니메이션 헤더', 'https://github.com/pju0205/TriForge/blob/main/Source/TriForge/Public/Character/TFAnimInstance.h']],
+          status: '코드·문서 확인'
+        }
+      ]
+    },
+    {
+      id: 'battleline', order: '02', name: 'Project Battle Line', short: '4인 협동 보스 레이드 TPS', period: '2024.09 — 2024.12', team: '팀 프로젝트', engine: 'Unreal Engine 5.4', network: 'Listen Server', genre: 'TPS / PvE',
+      summary: '여러 플레이어가 협력해 보스를 공략하는 TPS. 카메라 기준 이동, 점프, 구르기·대시, 달리기 상태와 애니메이션 연결을 담당했습니다.',
+      myRole: '카메라 기준 캐릭터 이동, 점프·구르기·대시, 달리기 상태 및 애니메이션 연계',
+      video: '-3ciZHhTgDc', repo: 'https://github.com/choiguri/GNU_PBL', cover: 'battle',
+      achievement: '2024 경상국립대학교 캡스톤디자인 경진대회 최우수상 (Notion 기록)',
+      tags: ['C++', 'TPS Movement', 'Listen Server', 'Anim Montage', 'RepNotify'],
+      categories: ['캐릭터 이동', '상태·애니메이션', '멀티플레이', '문제 해결'],
+      features: [
+        {
+          id: 'camera-movement', category: '캐릭터 이동', eyebrow: 'INPUT TO MOVEMENT', title: '카메라 기준 2D 이동 처리',
+          lead: '플레이어가 바라보는 방향을 기준으로 WASD 입력이 직관적으로 동작하도록 이동 벡터를 계산했습니다.',
+          detail: 'GetControlRotation()의 Yaw로 Forward/Right 방향 벡터를 만든 뒤, 2D InputActionValue를 AddMovementInput()으로 전달합니다. 컨트롤러의 입력 해석과 캐릭터 이동 처리를 분리했습니다.',
+          flow: [['Enhanced Input','2D 이동 축 읽기'],['Controller Yaw','카메라의 수평 회전 분리'],['방향 벡터','Forward/Right 생성'],['AddMovementInput','전후/좌우 입력 적용']],
+          note: '카메라 회전을 이동 기준으로 사용하는 TPS 조작 구조를 구현했습니다.',
+          snippet: 'ControlledPawn->AddMovementInput(ForwardDirection, InputAxisVector.Y);\nControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);',
+          evidence: [['이동 입력 코드', 'https://github.com/choiguri/GNU_PBL/blob/main/Source/GNU_PBL/Private/Characters/GnuMyPlayerController.cpp#L483-L514']],
+          status:'코드 확인'
+        },
+        {
+          id: 'dodge-montage', category: '상태·애니메이션', eyebrow: 'ACTION MANAGEMENT', title: '방향별 구르기·대시 실행',
+          lead: '입력 방향에 따라 구르기 몽타주와 LaunchCharacter 이동 방향을 선택하고, 종료 시 구르기 상태를 해제합니다.',
+          detail: 'ServerMontageOnDodge()에서 낙하·피격·구르기 중복·쿨다운·스태미나를 확인합니다. SetDodgeMontage()는 전후좌우 방향별 몽타주와 이동 벡터를 고르고, OnDodgeMontageEnded()에서 상태를 해제합니다.',
+          flow: [['Dodge 입력','MoveDirection 전달'],['서버 조건 검사','Falling / isDodge / Cooldown / Stamina'],['방향 선택','전·후·좌·우 Montage 선택'],['애니메이션·이동','Montage 재생 + LaunchCharacter'],['종료','MontageEnded → isDodge = false']],
+          note: '액션 도중의 조건 검사와 종료 이벤트를 한 흐름으로 설계했습니다.',
+          snippet: 'if (GetCharacterMovement()->IsFalling()) return;\nif (isDodge || isDodgeCoolDown || Stamina < 40) return;',
+          evidence: [['구르기 코드', 'https://github.com/choiguri/GNU_PBL/blob/main/Source/GNU_PBL/Private/Characters/GnuMyCharacter.cpp#L416-L528']],
+          status:'코드 확인'
+        },
+        {
+          id: 'sprint-sync', category: '멀티플레이', eyebrow: 'SERVER / REPNOTIFY', title: '달리기 상태의 서버·클라이언트 반영',
+          lead: '클라이언트 입력에서 서버에 달리기 상태 변경을 요청하고, 상태 갱신 결과를 RepNotify로 연결했습니다.',
+          detail: 'ServerSprintStart()/ServerSprintEnd()가 UpdateSprintState()를 호출합니다. isSprint 상태 변경을 OnRep_IsSprinting()이 반영하고, 걷기·달리기 속도는 CharacterMovement의 MaxWalkSpeed로 적용합니다.',
+          flow: [['Sprint 입력','PlayerController에서 달리기 시작/종료'],['Server RPC','ServerSprintStart / End'],['상태 업데이트','isSprint + MaxWalkSpeed'],['RepNotify','OnRep_IsSprinting'],['클라이언트 반영','동일 상태에 따른 이동 속도 갱신']],
+          note: '서버 권한과 로컬 체감 사이에 상태 동기화가 필요한 이유를 이해한 경험입니다.',
+          snippet: 'void AGnuMyCharacter::OnRep_IsSprinting()\n{\n    UpdateSprintState(isSprint);\n}',
+          evidence: [['달리기 동기화 코드', 'https://github.com/choiguri/GNU_PBL/blob/main/Source/GNU_PBL/Private/Characters/GnuMyCharacter.cpp#L310-L365']],
+          status:'코드 확인'
+        },
+        {
+          id: 'jump-dodge-guard', category: '문제 해결', eyebrow: 'STATE GUARD', title: '점프·구르기 동작 충돌 방지',
+          lead: '연속 입력 중 점프와 구르기가 겹치는 상황을 막기 위해 각 동작의 시작 조건을 명확하게 구분했습니다.',
+          detail: '서버 구르기 처리에서 IsFalling()이면 진입을 차단하고, 점프 입력에서는 isDodge 상태일 경우 Jump()를 호출하지 않습니다. 몽타주 종료 콜백에서 isDodge를 해제합니다.',
+          flow: [['플레이어 입력','Jump 또는 Dodge'],['상태 검사','IsFalling / isDodge 확인'],['조건 분기','동작 간 충돌 가능 시 요청 거부'],['정상 실행','Jump 또는 Dodge Montage'],['종료 이벤트','상태 플래그 복원']],
+          issue: {problem:'빠른 연속 입력에서 점프와 구르기가 동시에 실행될 가능성이 있었습니다.',analysis:'동작별 시작 시점뿐 아니라 서로의 진행 상태를 참조할 필요가 있었습니다.',action:'구르기 시작 시 IsFalling() 검사, 점프 시 isDodge 검사, 몽타주 종료 시 상태 해제 로직을 배치했습니다.',result:'상호 배타 조건이 구현된 코드를 확인했습니다. 정량적인 동작 테스트 기록은 확인하지 못했습니다.',lesson:'액션의 실행 가능 여부는 하나의 입력 함수 안이 아니라 여러 동작의 시작·종료 상태와 함께 설계해야 한다는 점을 배웠습니다.'},
+          note: '동작 상태의 유효한 전환을 보장하기 위한 방어 로직입니다.',
+          snippet: 'if (GetCharacterMovement()->IsFalling()) return;\n// Dodge 진입 제한\nif (MyCharacter->isDodge) return;\n// Jump 입력 제한',
+          evidence: [['구르기 진입 조건', 'https://github.com/choiguri/GNU_PBL/blob/main/Source/GNU_PBL/Private/Characters/GnuMyCharacter.cpp#L416-L427'], ['점프 입력 조건', 'https://github.com/choiguri/GNU_PBL/blob/main/Source/GNU_PBL/Private/Characters/GnuMyPlayerController.cpp#L662-L671']],
+          status:'코드 확인'
+        },
+        {
+          id: 'dodge-network', category: '멀티플레이', eyebrow: 'ACTION REPLICATION', title: '구르기 몽타주 멀티캐스트 경로',
+          lead: '서버가 구르기 입력을 검증한 후 다른 플레이어의 화면에서도 액션을 표현하도록 멀티캐스트 함수를 연결했습니다.',
+          detail: 'ServerMontageOnDodge()에서 애니메이션, 스태미나·쿨다운, 이동 처리 후 MultiCastMontage_Dodge()를 호출합니다. 멀티캐스트에서도 몽타주/이동 경로를 처리하므로 실제 네트워크 권한·중복 실행 검증을 추가로 수행해야 합니다.',
+          flow: [['클라이언트 요청','Dodge 방향값 전달'],['ServerMontageOnDodge','서버 조건 검사·행동 실행'],['Multicast','다른 인스턴스에 구르기 전파'],['Montage + Launch','원격 시점의 동작 표현'],['검증 과제','권한·중복 실행 경로 점검']],
+          note: 'RPC의 호출 위치뿐 아니라 각 인스턴스에서 실행되는 코드의 범위를 점검하게 된 사례입니다.',
+          snippet: 'PlayAnimMontage(DodgeMontage);\nLaunchCharacter(AddVector, true, true);\nMultiCastMontage_Dodge(Forward, Right);',
+          evidence: [['구르기 RPC 코드', 'https://github.com/choiguri/GNU_PBL/blob/main/Source/GNU_PBL/Private/Characters/GnuMyCharacter.cpp#L416-L480']],
+          status:'코드 확인 · 추가 검증'
+        }
+      ]
+    }
+  ]
+};
+
+</script>
+<script>
+/* Public frontend. No edit capability is included here; all database writes are gated by Supabase RLS. */
+(() => {
+  'use strict';
+  const $ = (selector) => document.querySelector(selector);
+  const esc = (v='') => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const safeUrl = (u) => { try { const x = new URL(String(u)); return ['http:','https:'].includes(x.protocol) ? x.href : '#'; } catch(e){return '#';} };
+  const videoId = (v) => /^[\w-]{11}$/.test(String(v)) ? v : '';
+  const state = { data: window.PORTFOLIO_DATA, project:0, category:'',feature:0, selectedNode:0 };
+  const getProject = () => state.data.projects[state.project];
+  const getItems = () => getProject().features.filter(x=>x.category === state.category);
+  const getFeature = () => getItems()[state.feature] || getItems()[0];
+
+  function setTheme(theme) {
+    document.documentElement.dataset.theme = theme;
+    $('#themeIcon').textContent = theme === 'dark' ? '☀' : '☾';
+    $('#themeToggle').setAttribute('aria-label', theme === 'dark' ? '라이트 모드로 전환' : '다크 모드로 전환');
+    try {localStorage.setItem('portfolio_theme',theme);}catch(e){}
+  }
+  let saved='dark'; try{ saved=localStorage.getItem('portfolio_theme') || (window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'); }catch(e){}
+  setTheme(saved);
+  $('#themeToggle').addEventListener('click',()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark'));
+
+  const link = ([name,url]) => `<a href="${esc(safeUrl(url))}" target="_blank" rel="noopener noreferrer">${esc(name)} ↗</a>`;
+  function renderTop() {
+    const p=state.data.profile;
+    $('#heroHeadline').innerHTML = esc(p.headline).replace(/\n/g,'<br>').replace(/(코드로 설계합니다\.)/g,'<em>$1</em>');
+    $('#heroIntro').textContent=p.intro;
+    $('#heroSkills').innerHTML=(p.focus||[]).slice(0,7).map(x=>`<span class="skill">${esc(x)}</span>`).join('');
+    $('#heroGithub').href=safeUrl(p.github);
+    $('#aboutLead').textContent=p.about;
+    $('#principle').textContent=p.principle;
+    $('#contactGithub').href=safeUrl(p.github);
+    $('#contactNotion').href=safeUrl(p.notion);
+    const mail=$('#contactEmail'); if(p.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email)){mail.href='mailto:'+p.email;mail.classList.remove('hidden');}else mail.classList.add('hidden');
+  }
+  const wire = `<svg viewBox="0 0 440 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="220" cy="120" r="90" stroke="#a0e2ce"/><circle cx="220" cy="120" r="54" stroke="#a0e2ce"/><path d="M30 120H410M220 12V228M66 30L372 210M373 28L62 207" stroke="#a0e2ce" stroke-width="1"/><path d="M180 100L220 75L260 100L260 148L220 171L180 148Z" stroke="#a0e2ce" stroke-width="1.5"/><circle cx="220" cy="120" r="9" fill="#a0e2ce"/></svg>`;
+  function renderCards() {
+    $('#projectCards').innerHTML = state.data.projects.map((p,i)=>`<article class="project-card"><div class="project-image ${esc(p.cover||'')}"><img src="https://img.youtube.com/vi/${esc(videoId(p.video))}/hqdefault.jpg" alt="${esc(p.name)} 시연 영상 썸네일" loading="lazy" onerror="this.style.display='none'"><div class="image-wire">${wire}</div><button class="play-video" data-video="${i}" aria-label="${esc(p.name)} 시연 영상 재생">▶</button><div class="project-overlay"><div><span>${esc(p.short)}</span><strong>${esc(p.name)}</strong></div><span>${esc(p.order)} / 02</span></div></div><div class="project-body"><span class="card-index">${esc(p.period)} · ${esc(p.team)} · ${esc(p.network)}</span><p>${esc(p.summary)}</p><div class="project-tag-row">${(p.tags||[]).slice(0,5).map(t=>`<span>${esc(t)}</span>`).join('')}</div><div class="project-card-links"><button type="button" data-project="${i}">기술 분석 살펴보기 ↗</button><a href="${esc(safeUrl(p.repo))}" target="_blank" rel="noopener noreferrer">SOURCE CODE ↗</a></div></div></article>`).join('');
+    document.querySelectorAll('[data-project]').forEach(b=>b.addEventListener('click',()=>navigateProject(+b.dataset.project)));
+    document.querySelectorAll('[data-video]').forEach(b=>b.addEventListener('click',()=>openVideo(+b.dataset.video)));
+  }
+  function renderSelectors() {
+    $('#projectSelector').innerHTML=state.data.projects.map((p,i)=>`<button type="button" class="${state.project===i?'active':''}" aria-pressed="${state.project===i}" data-switchproject="${i}">${esc(p.name)}</button>`).join('');
+    document.querySelectorAll('[data-switchproject]').forEach(b=>b.addEventListener('click',()=>setProject(+b.dataset.switchproject)));
+    const p=getProject();
+    $('#deepProjectSummary').innerHTML=`<div><span class="feature-eyebrow">${esc(p.genre)} / ${esc(p.engine)}</span><h3>${esc(p.name)} <span class="muted">— ${esc(p.short)}</span></h3><p><strong>개인 담당:</strong> ${esc(p.myRole)}</p></div><aside>${esc(p.team)} / ${esc(p.network)}<strong>${esc(p.period)}</strong><a href="${esc(safeUrl(p.repo))}" target="_blank" rel="noopener noreferrer" style="color:var(--accent);display:inline-block;margin-top:9px">GITHUB ↗</a></aside>`;
+    $('#categoryTabs').innerHTML=p.categories.map(cat=>`<button role="tab" aria-selected="${cat===state.category}" type="button" class="${cat===state.category?'active':''}" data-cat="${esc(cat)}">${esc(cat)} <span style="opacity:.55">${p.features.filter(f=>f.category===cat).length}</span></button>`).join('');
+    document.querySelectorAll('[data-cat]').forEach(b=>b.addEventListener('click',()=>{state.category=b.dataset.cat;state.feature=0;state.selectedNode=0;renderSelectors();renderFeature();}));
+    $('#featureCount').textContent=`${String(p.features.length).padStart(2,'0')} TECHNICAL NOTES`;
+  }
+  function setProject(index){ if(index<0||index>=state.data.projects.length)return;state.project=index;state.category=getProject().categories[0];state.feature=0;state.selectedNode=0;renderSelectors();renderFeature(); }
+  function navigateProject(index){setProject(index);$('#deep-dive').scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'','#deep-dive')}
+  function renderFlow(nodes,active=0) {
+    if(!nodes||!nodes.length)return '<p>흐름 정보가 없습니다.</p>';
+    const total=nodes.length, gap=14, w=(940-(total-1)*gap)/total, y=38,h=104;
+    const children=nodes.map((node,i)=>{
+      const x=i*(w+gap);
+      const val=String(node[0]||'');
+      let wrapped=[];
+      if(val.length>20 && val.includes(' ')){
+        const parts=val.split(' ');while(parts.length){wrapped.push(parts.splice(0,Math.ceil(parts.length/2)).join(' '));if(wrapped.length>=2){if(parts.length) wrapped[wrapped.length-1]+='…';break;}}
+      } else if(val.length>17) {wrapped=[val.slice(0,15),val.slice(15,30)];} else wrapped=[val];
+      const tsp=wrapped.map((v,j)=>`<tspan x="${x+w/2}" dy="${j===0?0:21}">${esc(v)}</tspan>`).join('');
+      const first=y+62-((wrapped.length-1)*10);
+      return `${i?`<path class="flow-connector" d="M ${x-gap} ${y+52} H ${x-3}"/><path class="flow-connector" d="m ${x-8} ${y+47} l 5 5 l -5 5"/>`:''}<g class="flow-node ${i===active?'active':''}" tabindex="0" role="button" aria-label="${esc(node[0])} 설명 보기" data-node="${i}"><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="8"/><text class="node-number" x="${x+14}" y="${y+24}">STEP ${String(i+1).padStart(2,'0')}</text><text text-anchor="middle" x="${x+w/2}" y="${first}">${tsp}</text></g>`;
+    }).join('');
+    return `<div class="flow-panel"><svg class="flow-svg" viewBox="0 0 940 175" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="기능 처리 흐름도, 각 노드를 선택해 상세 설명 확인">${children}</svg><div class="flow-inspector"><span class="flow-label">STEP ${String(active+1).padStart(2,'0')}</span><p>${esc(nodes[active]?.[1]||'')}</p></div></div>`;
+  }
+  function renderFeature() {
+    const item=getFeature();if(!item)return;
+    const items=getItems();$('#featurePager').innerHTML=`<b>${String(state.feature+1).padStart(2,'0')}</b> / ${String(items.length).padStart(2,'0')} &nbsp; ${items.map((x,i)=>`<button type="button" aria-label="${esc(x.title)}" title="${esc(x.title)}" class="feature-dot" data-featureindex="${i}" style="display:inline-block;width:5px;height:5px;padding:0;margin:0 3px;background:${i===state.feature?'var(--accent)':'var(--subtle)'};border:0;border-radius:50%;cursor:pointer"></button>`).join('')}`;
+    document.querySelectorAll('[data-featureindex]').forEach(b=>b.addEventListener('click',()=>{state.feature=+b.dataset.featureindex;state.selectedNode=0;renderFeature()}));
+    let issue='';
+    if(item.issue){issue=`<div class="issue-block"><div class="meta-heading">PROBLEM → ANALYSIS → ACTION → RESULT</div>${[['문제',item.issue.problem],['분석',item.issue.analysis],['조치',item.issue.action],['결과',item.issue.result],['배운 점',item.issue.lesson]].map(([k,v])=>`<div class="issue-step"><b>${esc(k)}</b><p>${esc(v)}</p></div>`).join('')}</div>`;}
+    $('#featureContent').innerHTML=`<div class="feature-main"><span class="feature-eyebrow">${esc(item.eyebrow)}</span><h3>${esc(item.title)}</h3><p class="feature-lead">${esc(item.lead)}</p><p class="feature-detail">${esc(item.detail)}</p><div class="meta-heading">IMPLEMENTATION FLOW · 노드를 눌러 설명 보기</div>${renderFlow(item.flow,state.selectedNode)}<div class="feature-note"><b>INSIGHT</b>${esc(item.note)}</div></div><aside class="feature-aside"><div><span class="status ${item.status?.includes('검증')?'warning':''}">${esc(item.status)}</span><div class="meta-heading">CODE REFERENCE / C++</div><div class="code-snippet"><div class="snippet-top"><span>IMPLEMENTATION EXCERPT</span><button type="button" id="copyCode">COPY</button></div><pre><code>${esc(item.snippet||'코드 예시 없음')}</code></pre></div><div class="meta-heading">SOURCE OF EVIDENCE</div><div class="evidence">${(item.evidence||[]).map(link).join('')}</div></div>${issue}</aside>`;
+    document.querySelectorAll('.flow-node').forEach(g=>{
+      const run=()=>{state.selectedNode=+g.dataset.node;$('#featureContent .flow-panel').outerHTML=renderFlow(item.flow,state.selectedNode);bindNodes();};
+      g.addEventListener('click',run);g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();run();}});
+    });
+    function bindNodes(){ document.querySelectorAll('.flow-node').forEach(g=>{const run=()=>{state.selectedNode=+g.dataset.node;$('#featureContent .flow-panel').outerHTML=renderFlow(item.flow,state.selectedNode);bindNodes()};g.addEventListener('click',run);g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();run();}})})}
+    $('#copyCode').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(item.snippet||'');$('#copyCode').textContent='COPIED';setTimeout(()=>{if($('#copyCode'))$('#copyCode').textContent='COPY'},1500)}catch(e){$('#copyCode').textContent='선택 후 복사'}});
+  }
+  function changeFeature(delta){const n=getItems().length;if(!n)return;state.feature=(state.feature+delta+n)%n;state.selectedNode=0;renderFeature()}
+  $('#prevFeature').addEventListener('click',()=>changeFeature(-1));$('#nextFeature').addEventListener('click',()=>changeFeature(1));
+  document.addEventListener('keydown',e=>{
+    if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;
+    if(document.activeElement && ['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName))return;
+    if($('#videoDialog').open)return;
+    const rect=$('#deepShell').getBoundingClientRect();if(rect.bottom<75||rect.top>window.innerHeight-75)return;
+    e.preventDefault();changeFeature(e.key==='ArrowRight'?1:-1);
+  });
+  function showFeature(projectId,featureId){const ix=state.data.projects.findIndex(p=>p.id===projectId);if(ix<0)return;state.project=ix;const item=getProject().features.find(f=>f.id===featureId);if(!item)return;state.category=item.category;state.feature=getItems().findIndex(f=>f.id===featureId);state.selectedNode=0;renderSelectors();renderFeature();$('#deep-dive').scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'','#deep-dive');}
+  function renderCases(){const cases=state.data.projects.flatMap(p=>(p.features||[]).filter(f=>f.issue).map(f=>({p,f})));
+    $('#caseCards').innerHTML=cases.map(({p,f},i)=>`<button type="button" class="case-card" data-case-project="${esc(p.id)}" data-case-feature="${esc(f.id)}"><span class="case-eyebrow">CASE ${String(i+1).padStart(2,'0')} / ${esc(p.name)}</span><h3>${esc(f.title)}</h3><p>${esc(f.issue?.problem||f.lead)}</p><div class="case-phases"><span>REPRODUCE</span><i>→</i><span>ANALYZE</span><i>→</i><span>CHANGE</span></div><span class="case-cta"><span>${esc(f.status)}</span><span>기술 분석 보기 ↗</span></span></button>`).join('');
+    document.querySelectorAll('[data-case-feature]').forEach(b=>b.addEventListener('click',()=>showFeature(b.dataset.caseProject,b.dataset.caseFeature)));
+  }
+  function openVideo(ix){const p=state.data.projects[ix],id=videoId(p?.video);if(!id)return;$('#videoFrame').innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0" title="${esc(p.name)} 시연 영상" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;$('#videoCaption').textContent=`${p.name} — 프로젝트 시연 영상 (YouTube)`;$('#videoDialog').showModal()}
+  function closeVideo(){$('#videoDialog').close();$('#videoFrame').innerHTML=''}
+  $('#closeVideo').addEventListener('click',closeVideo);$('#videoDialog').addEventListener('click',e=>{if(e.target===$('#videoDialog'))closeVideo()});$('#videoDialog').addEventListener('close',()=>{$('#videoFrame').innerHTML=''})
+  function render(){if(!state.data?.projects?.length)return;renderTop();renderCards();setProject(Math.min(state.project,state.data.projects.length-1));renderCases();}
+  render();
+  // Optional hosted content and privacy-conscious aggregate page views. Security lives in database RLS.
+  const cfg=window.PORTFOLIO_CONFIG||{};
+  if(cfg.supabaseUrl&&cfg.supabaseAnonKey){
+    const script=document.createElement('script');script.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
+    script.onload=async()=>{try{
+      const db=window.supabase.createClient(cfg.supabaseUrl,cfg.supabaseAnonKey,{auth:{persistSession:false}});
+      const {data,error}=await db.from('portfolio_public').select('payload').eq('id',1).maybeSingle();
+      if(!error&&data?.payload?.projects?.length){state.data=data.payload;render()}
+      try{if(!sessionStorage.getItem('portfolio_counted')){await db.from('page_views').insert({path:'/',referrer_host:document.referrer?new URL(document.referrer).hostname.slice(0,120):null});sessionStorage.setItem('portfolio_counted','1')}}catch(e){}
+    }catch(e){console.warn('Published portfolio unavailable; showing bundled content.')}};
+    document.head.appendChild(script);
+  }
+})();
+
+</script>
+</body>
+</html>
